@@ -9,7 +9,7 @@ if (prefersReduced) {
   inView(
     "[data-reveal]",
     (el) => {
-      animate(el, { opacity: [0, 1], y: [24, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+      animate(el, { opacity: [0, 1], y: [24, 0] }, { duration: 0.6, ease: [0.22, 1, 0.36, 1] });
     },
     { margin: "0px 0px -10% 0px" },
   );
