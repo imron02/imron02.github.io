@@ -1,0 +1,33 @@
+---
+import { Github, Linkedin, Mail } from "lucide-react";
+import type { SocialLink } from "../data/profile";
+
+interface Props {
+  socials: SocialLink[];
+  showLabels?: boolean;
+}
+
+const { socials, showLabels = false } = Astro.props;
+const icons = { github: Github, linkedin: Linkedin, mail: Mail } as const;
+---
+
+<ul class="flex flex-wrap items-center gap-4">
+  {
+    socials.map((social) => {
+      const Icon = icons[social.icon];
+      return (
+        <li>
+          <a
+            href={social.href}
+            class="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
+            aria-label={social.label}
+            rel="noopener noreferrer"
+          >
+            <Icon className="size-4" />
+            {showLabels && social.label}
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>

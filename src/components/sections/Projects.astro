@@ -1,0 +1,45 @@
+---
+import { ArrowUpRight } from "lucide-react";
+import type { Profile } from "../../data/profile";
+import type { Ui } from "../../i18n/ui";
+import SectionHeading from "../SectionHeading.astro";
+
+interface Props {
+  p: Profile;
+  t: Ui;
+}
+
+const { p, t } = Astro.props;
+---
+
+<section id="projects" class="border-t border-line py-16 md:py-24">
+  <SectionHeading index="04" title={t.nav.projects} />
+  <ul class="space-y-4">
+    {
+      p.projects.map((project) => (
+        <li data-reveal>
+          <a
+            href={project.href}
+            class="group block rounded-xl border border-line p-6 transition-colors hover:border-accent/60"
+            rel="noopener noreferrer"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-base font-medium text-ink transition-colors group-hover:text-accent">
+                {project.title}
+              </h3>
+              <ArrowUpRight className="size-4 shrink-0 text-muted transition-colors group-hover:text-accent" />
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{project.description}</p>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {project.stack.map((tech) => (
+                <li class="rounded-full border border-line px-3 py-1 font-mono text-xs text-muted">
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
