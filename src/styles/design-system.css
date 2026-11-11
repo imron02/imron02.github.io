@@ -1,0 +1,757 @@
+/* Global design-system primitives. Imported once by src/layouts/MainLayout.astro. */
+
+/* ------------------------------------------------------------------ */
+/* Typography                                                          */
+/* ------------------------------------------------------------------ */
+
+.ds-display-xl,
+.ds-display-lg,
+.ds-heading-1,
+.ds-heading-2,
+.ds-heading-3 {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.ds-display-xl {
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ds-display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ds-heading-1 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 1.17;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ds-heading-2 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.21;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ds-heading-3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.27;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.ds-body-lg,
+.ds-body,
+.ds-body-sm {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.ds-body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.67;
+  font-weight: 400;
+}
+
+.ds-body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.63;
+  font-weight: 400;
+}
+
+.ds-body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.57;
+  font-weight: 400;
+}
+
+.ds-caption {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.ds-hud {
+  margin: 0;
+  font-family: var(--font-hud);
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ds-hud-label {
+  margin: 0;
+  font-family: var(--font-hud);
+  font-size: 9px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.ds-hud-micro {
+  margin: 0;
+  font-family: var(--font-hud);
+  font-size: 8px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-disabled);
+}
+
+.ds-text-primary {
+  color: var(--color-text-primary);
+}
+.ds-text-secondary {
+  color: var(--color-text-secondary);
+}
+.ds-text-muted {
+  color: var(--color-text-muted);
+}
+.ds-text-disabled {
+  color: var(--color-text-disabled);
+}
+.ds-text-info {
+  color: var(--color-info);
+}
+.ds-text-gold {
+  color: var(--color-accent-gold);
+}
+
+.ds-gradient-text {
+  background: linear-gradient(90deg, var(--color-text-primary) 0%, var(--color-primary-hover) 55%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout helpers                                                      */
+/* ------------------------------------------------------------------ */
+
+.ds-stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ds-stack--tight {
+  gap: 0.5rem;
+}
+
+.ds-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-info-list {
+  margin: 0;
+}
+
+.ds-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 6px 0;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.ds-info-row:first-child {
+  border-top: 0;
+}
+
+.ds-info-row dd {
+  margin: 0;
+  text-align: right;
+}
+
+.ds-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border-subtle);
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Button                                                              */
+/* ------------------------------------------------------------------ */
+
+.ds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--radius-cta);
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  font-family: var(--font-hud);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out,
+    background-color 150ms ease-out,
+    border-color 150ms ease-out,
+    color 150ms ease-out,
+    opacity 150ms ease-out;
+}
+
+.ds-button__icon {
+  display: inline-flex;
+}
+
+.ds-button__divider {
+  width: 1px;
+  height: 14px;
+  background: var(--color-tint-divider);
+}
+
+.ds-button--block {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ds-button:focus-visible {
+  outline: 2px solid var(--color-primary-hover);
+  outline-offset: 2px;
+}
+
+.ds-button:disabled,
+.ds-button[aria-disabled="true"] {
+  opacity: 0.4;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ds-button--primary {
+  padding: 15px 24px;
+  font-size: 11px;
+  color: var(--color-text-primary);
+  border-color: var(--color-focus-ring);
+  background: linear-gradient(180deg, var(--color-primary-hover), var(--color-primary-dark));
+  box-shadow:
+    0 8px 26px var(--color-glow-primary),
+    inset 0 1px 0 var(--color-tint-highlight);
+}
+
+.ds-button--primary:hover {
+  background: linear-gradient(180deg, var(--color-accent-orchid), var(--color-primary));
+  box-shadow: 0 10px 34px color-mix(in srgb, var(--color-primary) 65%, transparent);
+  transform: translateY(-1px);
+}
+
+.ds-button--primary:active {
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-deep));
+  box-shadow: inset 0 2px 6px var(--color-shadow-inset-strong);
+  transform: none;
+}
+
+.ds-button--secondary {
+  padding: 13px 20px;
+  font-size: 10px;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  background: var(--color-tint-secondary);
+}
+
+.ds-button--secondary:hover {
+  background: color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--color-secondary) 35%, transparent);
+  transform: translateY(-1px);
+}
+
+.ds-button--secondary:active {
+  background: color-mix(in srgb, var(--color-secondary) 6%, transparent);
+  box-shadow: inset 0 2px 6px var(--color-shadow-inset);
+  transform: none;
+}
+
+.ds-button--ghost {
+  padding: 15px 20px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  background: var(--color-tint-ghost);
+}
+
+.ds-button--ghost:hover {
+  background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  color: var(--color-text-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 14px var(--color-glow-primary);
+  transform: translateY(-1px);
+}
+
+.ds-button--ghost:active {
+  background: color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+  box-shadow: inset 0 2px 6px var(--color-shadow-inset);
+  transform: none;
+}
+
+.ds-button--danger {
+  padding: 13px 20px;
+  font-size: 10px;
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: var(--color-tint-danger);
+}
+
+.ds-button--danger:hover {
+  background: color-mix(in srgb, var(--color-danger) 15%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--color-danger) 25%, transparent);
+  transform: translateY(-1px);
+}
+
+.ds-button--danger:active {
+  background: color-mix(in srgb, var(--color-danger) 6%, transparent);
+  box-shadow: inset 0 2px 6px var(--color-shadow-inset);
+  transform: none;
+}
+
+.ds-button--disabled,
+.ds-button--disabled:hover,
+.ds-button--disabled:active {
+  padding: 13px 20px;
+  font-size: 10px;
+  color: var(--color-text-disabled);
+  border-color: var(--color-border-subtle);
+  background: var(--color-surface-hover);
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon Button                                                         */
+/* ------------------------------------------------------------------ */
+
+.ds-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-cta);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    color 150ms,
+    box-shadow 150ms;
+}
+
+.ds-icon-button--sm {
+  width: 30px;
+  height: 30px;
+}
+
+.ds-icon-button--primary {
+  color: var(--color-primary);
+}
+
+.ds-icon-button--danger {
+  color: var(--color-danger);
+}
+
+.ds-icon-button:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+  box-shadow: 0 0 16px var(--color-glow-primary);
+}
+
+.ds-icon-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 6px var(--color-shadow-inset);
+}
+
+.ds-icon-button:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.ds-icon-button:focus-visible {
+  outline: 2px solid var(--color-primary-hover);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Panel                                                               */
+/* ------------------------------------------------------------------ */
+
+.ds-panel {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  text-align: left;
+}
+
+.ds-panel--hud {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+}
+
+.ds-panel--glass {
+  background: var(--color-tint-glass);
+  border: 1px solid var(--color-tint-glass-border);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.ds-panel--floating {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-accent-gold);
+  border-radius: var(--radius-s);
+  box-shadow: 0 18px 40px var(--color-shadow-panel);
+}
+
+.ds-panel--modal {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  box-shadow: 0 24px 60px var(--color-shadow-modal);
+}
+
+.ds-panel__spine {
+  flex: 0 0 2px;
+  width: 2px;
+  align-self: stretch;
+}
+
+.ds-panel__spine--primary {
+  background: var(--color-primary);
+}
+.ds-panel__spine--secondary {
+  background: var(--color-secondary);
+}
+.ds-panel__spine--gold {
+  background: var(--color-accent-gold);
+}
+.ds-panel__spine--pink {
+  background: var(--color-accent-pink);
+}
+.ds-panel__spine--danger {
+  background: var(--color-danger);
+}
+
+.ds-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.ds-panel--hud .ds-panel__body {
+  padding: 18px 20px;
+}
+
+.ds-panel--glass .ds-panel__body {
+  padding: 18px 20px;
+}
+
+.ds-panel--floating .ds-panel__body {
+  padding: 18px;
+  gap: 10px;
+}
+
+.ds-panel--modal .ds-panel__body {
+  padding: 20px;
+  gap: 12px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Stat Tile                                                           */
+/* ------------------------------------------------------------------ */
+
+.ds-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 22px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+}
+
+.ds-stat__label {
+  font-family: var(--font-hud);
+  font-size: 8px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.ds-stat__value {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.ds-stat__sub {
+  font-family: var(--font-hud);
+  font-size: 8px;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.ds-stat__sub--gold {
+  color: var(--color-accent-gold);
+}
+.ds-stat__sub--success {
+  color: var(--color-success);
+}
+.ds-stat__sub--danger {
+  color: var(--color-danger);
+}
+.ds-stat__sub--muted {
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Badge                                                               */
+/* ------------------------------------------------------------------ */
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid;
+  font-family: var(--font-hud);
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ds-badge--gold {
+  color: var(--color-accent-gold);
+  border-color: var(--color-accent-gold);
+  background: var(--color-tint-gold);
+}
+
+.ds-badge--primary {
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  background: var(--color-tint-primary);
+}
+
+.ds-badge--secondary {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  background: var(--color-tint-secondary);
+}
+
+.ds-badge--muted {
+  color: var(--color-text-muted);
+  border-color: var(--color-text-muted);
+  background: var(--color-tint-ghost);
+}
+
+.ds-badge--success {
+  color: var(--color-success);
+  border-color: var(--color-success);
+  background: var(--color-tint-success);
+}
+
+.ds-badge--danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: var(--color-tint-danger);
+}
+
+.ds-badge--info {
+  color: var(--color-info);
+  border-color: var(--color-info);
+  background: var(--color-tint-secondary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Nav Item                                                            */
+/* ------------------------------------------------------------------ */
+
+.ds-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 52px;
+  padding: 0 18px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-hud);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    color 150ms;
+}
+
+.ds-nav-list > li + li .ds-nav-item {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.ds-nav-item:hover {
+  background: color-mix(in srgb, var(--color-text-primary) 2.5%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.ds-nav-item__spine {
+  flex: 0 0 2px;
+  width: 2px;
+  height: 52px;
+  background: transparent;
+}
+
+.ds-nav-item__icon {
+  display: inline-flex;
+  color: currentColor;
+}
+
+.ds-nav-item__label {
+  flex: 1;
+}
+
+.ds-nav-item__index {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--color-text-disabled);
+}
+
+.ds-nav-item[aria-current="page"] {
+  background: var(--color-tint-primary);
+  color: var(--color-text-primary);
+}
+
+.ds-nav-item[aria-current="page"] .ds-nav-item__spine {
+  background: var(--color-primary);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-primary) 65%, transparent);
+}
+
+.ds-nav-item[aria-current="page"] .ds-nav-item__icon,
+.ds-nav-item[aria-current="page"] .ds-nav-item__index {
+  color: var(--color-primary-hover);
+}
+
+.ds-nav-item:focus-visible {
+  outline: 2px solid var(--color-primary-hover);
+  outline-offset: -2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Progress and skill meter                                            */
+/* ------------------------------------------------------------------ */
+
+.ds-progress {
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+  overflow: hidden;
+}
+
+.ds-progress--md {
+  height: 6px;
+}
+
+.ds-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 200ms linear;
+}
+
+.ds-progress--primary > span {
+  background: var(--color-primary);
+}
+.ds-progress--secondary > span {
+  background: var(--color-secondary);
+}
+.ds-progress--gold > span {
+  background: var(--color-accent-gold);
+}
+.ds-progress--success > span {
+  background: var(--color-success);
+}
+.ds-progress--danger > span {
+  background: var(--color-danger);
+}
+
+.ds-skill-meter {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.ds-skill-meter i {
+  display: block;
+  width: 10px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-text-muted) 25%, transparent);
+}
+
+.ds-skill-meter i.is-on {
+  background: var(--color-primary);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 70%, transparent);
+}

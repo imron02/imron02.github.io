@@ -1,0 +1,46 @@
+---
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/orbitron";
+import "../styles/global.css";
+import "../styles/design-system.css";
+import "../styles/game-ui.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Imron Rosdiana — Anime RPG Portfolio",
+  description = "An anime-RPG portfolio world for Imron Rosdiana — senior frontend engineer crafting modern web and mobile experiences.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#080B25" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={`${import.meta.env.BASE_URL}favicon.svg`}
+    />
+    <title>{title}</title>
+    <noscript>
+      <style is:inline>.loading-screen{display:none!important}</style>
+    </noscript>
+  </head>
+  <body>
+    <main class="game-stage"><slot /></main>
+  </body>
+</html>

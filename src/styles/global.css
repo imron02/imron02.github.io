@@ -1,77 +1,123 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", monospace;
+@theme {
+  --color-bg: #080b25;
+  --color-surface: #11152f;
+  --color-surface-elevated: #191d3d;
+  --color-surface-overlay: #090d26;
+  --color-surface-hover: #252a50;
 
-  --color-canvas: var(--canvas);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
+  --color-primary: #a855f7;
+  --color-primary-hover: #c084fc;
+  --color-primary-dark: #7e22ce;
+  --color-primary-deep: #6b21a8;
+  --color-secondary: #38bdf8;
+  --color-accent-pink: #f472b6;
+  --color-accent-gold: #fbbf24;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #c4c9e5;
+  --color-text-muted: #858baf;
+  --color-text-disabled: #555d7e;
+
+  --color-border: #38345f;
+  --color-border-subtle: #ffffff20;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #fb7185;
+  --color-info: #38bdf8;
+
+  --color-tint-ghost: #ffffff08;
+  --color-tint-glass: #ffffff0f;
+  --color-tint-glass-border: #ffffff26;
+  --color-tint-divider: #ffffff59;
+  --color-tint-highlight: #ffffff40;
+  --color-tint-primary: #a855f71a;
+  --color-tint-secondary: #38bdf814;
+  --color-tint-danger: #fb718514;
+  --color-tint-gold: #fbbf2414;
+  --color-tint-success: #4ade8014;
+
+  --color-focus-ring: #e9d5ff66;
+  --color-glow-primary: #a855f766;
+  --color-shadow-panel: #00000099;
+  --color-shadow-modal: #000000cc;
+  --color-shadow-inset: #00000059;
+  --color-shadow-inset-strong: #00000080;
+
+  --color-void: #05081c;
+  --color-accent-lilac: #e9d5ff;
+  --color-accent-ice: #f5f0ff;
+  --color-accent-orchid: #d8b4fe;
+  --color-secondary-soft: #7dd3fc;
+  --color-text-faint: #a3a9cc;
+  --color-text-dim: #9aa1c6;
+  --color-text-ghost: #8a91b4;
+
+  --color-hud-panel: #0a0e24e6;
+  --color-hud-panel-strong: #0a0e24f2;
+  --color-hud-panel-soft: #0a0e24cc;
+  --color-hud-panel-menu: #0a0e24d9;
+  --color-hud-panel-quiet: #0a0e2499;
+  --color-hud-chip: #0a0e24b3;
+  --color-hud-card: #0b0f28f2;
+  --color-hud-card-solid: #0b0f28;
+  --color-hud-board: #070b1fcc;
+  --color-hud-tile: #070b1fb3;
+  --color-hud-bar: #05081cf0;
+  --color-hud-track: #ffffff14;
+
+  --color-cta-start: #6d28d9;
+  --color-cta-mid: #9333ea;
+  --color-cta-deep: #c026d3;
+  --color-cta-end: #ec4899;
+  --color-cta-stroke: #f5d0fecc;
+
+  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-hud: "Orbitron Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xs: 2px;
+  --radius-cta: 3px;
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
 }
 
-:root {
-  --canvas: oklch(14.5% 0.006 285.8); /* near-black */
-  --surface: oklch(18.5% 0.007 285.8);
-  --ink: oklch(93% 0.003 285.8);
-  --muted: oklch(64% 0.006 285.8);
-  --line: oklch(27% 0.006 285.8);
-  --accent: oklch(74% 0.16 162); /* terminal emerald */
-}
-
-html {
-  color-scheme: dark;
-  scroll-padding-top: 6rem; /* offset for sticky header on anchor jumps */
-}
-
-::selection {
-  background: var(--accent);
-  color: var(--canvas);
-}
-
-/* Scroll-reveal progressive enhancement: hidden only when JS is active. */
-html.js [data-reveal] { opacity: 0; }
-
-/* Mobile nav disclosure */
-[data-nav] { display: none; }
-[data-nav].open {
-  display: flex;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  background: var(--canvas);
-  border-bottom: 1px solid var(--line);
-}
-@media (min-width: 768px) {
-  [data-nav] { display: flex; position: static; flex-direction: row; }
-}
-[data-nav-toggle] [data-icon="x"] { display: none; }
-[data-nav-toggle][aria-expanded="true"] [data-icon="menu"] { display: none; }
-[data-nav-toggle][aria-expanded="true"] [data-icon="x"] { display: block; }
-
-@media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-}
-
-/* Print → A4 CV document: flip tokens to light, strip chrome. */
-@media print {
-  :root {
-    --canvas: #ffffff;
-    --surface: #ffffff;
-    --ink: #111111;
-    --muted: #444444;
-    --line: #dddddd;
-    --accent: #111111;
+@layer base {
+  html {
+    color-scheme: dark;
   }
-  [data-no-print] { display: none !important; }
-  [data-reveal] { opacity: 1 !important; }
-  main { max-width: none !important; padding: 0 !important; }
-  section { break-inside: avoid; }
-  @page { size: A4; margin: 14mm; }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
 }

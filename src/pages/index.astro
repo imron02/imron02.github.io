@@ -1,5 +1,50 @@
 ---
-import Home from "../components/Home.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import PlayerProfile from "../components/game-ui/PlayerProfile";
+import GameMenu from "../components/game-ui/GameMenu";
+import CurrentChapter from "../components/game-ui/CurrentChapter";
+import PlayerStatus from "../components/game-ui/PlayerStatus";
+import QuestBoard from "../components/game-ui/QuestBoard";
+import WelcomePanel from "../components/game-ui/WelcomePanel";
+import SectionOverlay from "../components/game-ui/SectionOverlay";
+import LoadingScreen from "../components/game-ui/LoadingScreen";
+import Companion from "../components/game-ui/Companion";
+import SystemBar from "../components/game-ui/SystemBar";
+import SocialLinks from "../components/game-ui/SocialLinks";
+import PlayerChips from "../components/game-ui/PlayerChips";
+import TabBar from "../components/game-ui/TabBar";
+import WorldScene from "../components/world/WorldScene.astro";
 ---
 
-<Home locale="id" />
+<MainLayout>
+  <WorldScene />
+  <LoadingScreen client:load />
+
+  <div class="game-hud">
+    <div class="hud-slot hud-slot--rail">
+      <PlayerProfile />
+      <GameMenu client:load />
+      <CurrentChapter />
+      <PlayerStatus client:load />
+    </div>
+    <div class="hud-slot hud-slot--system"><SystemBar /></div>
+    <div class="hud-slot hud-slot--welcome">
+      <WelcomePanel client:load />
+      <SectionOverlay client:load />
+    </div>
+    <div class="hud-slot hud-slot--quests"><QuestBoard client:load /></div>
+    <div class="hud-slot hud-slot--corner">
+      <Companion />
+      <SocialLinks />
+    </div>
+    <div class="hud-slot hud-slot--chips"><PlayerChips client:load /></div>
+    <div class="hud-slot hud-slot--tabs"><TabBar client:load /></div>
+  </div>
+
+  <div class="hud-corners" aria-hidden="true">
+    <span class="hud-corner hud-corner--tl"></span>
+    <span class="hud-corner hud-corner--tr"></span>
+    <span class="hud-corner hud-corner--bl"></span>
+    <span class="hud-corner hud-corner--br"></span>
+  </div>
+</MainLayout>
