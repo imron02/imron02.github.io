@@ -53,14 +53,17 @@ interface Project {
   demoUrl?: string;      // omit to hide the demo button
   repositoryUrl?: string;// omit to hide the repo button
   featured: boolean;     // true → appears on the QuestBoard
+  tier?: "recommended" | "future"; // board chip + overlay badge, via tierMeta
 }
 ```
 
 - `id` must be unique; `selectProject(id)` looks up by id.
 - `featured: true` puts on HUD quest board. Non-featured still appear in full `ProjectPanel` list and quest log.
-- Quest board renders at most first **three** featured projects (`slice(0, 3)`) in 3-column grid — keep three most important entries first in array.
-- Board copy follows design: `q001` "E-commerce Platform", `q002` "Mobile Application", `q003` "Portal System". Thumbnails are `images/quest-0N.webp`; `q004` uses `quest-04.webp`, only appears in overlay list.
-- Board glyph keyed by project id (`q001` → shopping bag, `q002` → smartphone, `q003` → sparkles) with category fallback.
+- Quest board pages featured projects **three per page** (`PAGE_SIZE = 3`) in a 3-column grid; header shows `01/04` plus prev/next chevrons (both plain until hover, disabled at the ends) and `← → Navigate` hint, `Swipe` on mobile. Arrow keys page while focus is inside the board and move focus to the new page's first card (`key={page}` remounts the list); an `sr-only` `aria-live` line announces the visible range. A horizontal swipe past `SWIPE_THRESHOLD` (40px) that is more horizontal than vertical pages the board and suppresses the card click it would otherwise fire.
+- `// ACTIVE QUEST` and the active border/glow follow `$selectedProject`, not the first card of the page. Selecting a card opens the overlay; the marker is honest only because it reads real state.
+- Twelve entries featured (`q001`–`q012`) → four pages. Thumbnails are `images/quest-NN.webp` (640×272).
+- `tier` reads `tierMeta` (`src/data/projects.ts`) — one map holds `{ tone, chip, label }` per tier, so the card chip (`Rec` / `Future`) and the overlay badge (`Strong recommendation` / `Future-focused`) never drift. Omit for no marker.
+- Board glyph keyed by project id (`q005` → chart, `q006` → workflow, `q007` → code, `q008` → users, `q009` → building, `q010` → book, `q011` → palette, `q012` → credit card) with category fallback (shopping bag / smartphone / sparkles).
 
 ## `skills`
 

@@ -1,6 +1,6 @@
 import { useStore } from "@nanostores/preact";
 import { ArrowLeft, ArrowUpRight } from "lucide-preact";
-import { projects } from "../../data/projects";
+import { projects, tierMeta } from "../../data/projects";
 import { cn } from "../../lib/cn";
 import { text } from "../../lib/typography";
 import { $selectedProject, gameActions } from "../../state/game";
@@ -25,9 +25,14 @@ export default function ProjectPanel() {
           class="w-full aspect-video object-cover rounded-m opacity-85"
           src={`${import.meta.env.BASE_URL}${project.thumbnail}`}
           alt=""
+          width={640}
+          height={272}
           decoding="async"
         />
         <p class={cn(text({ role: "hud-label" }), "text-secondary")}>{project.category}</p>
+        {project.tier ? (
+          <Badge tone={tierMeta[project.tier].tone}>{tierMeta[project.tier].label}</Badge>
+        ) : null}
         <h2 class={text({ role: "heading-2" })}>{project.title}</h2>
         <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{project.description}</p>
         <ul class="flex flex-wrap gap-1.5 list-none m-0 p-0">
