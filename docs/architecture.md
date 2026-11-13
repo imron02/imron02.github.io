@@ -12,7 +12,7 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
       ├─ LoadingScreen       client:load      → #loading-screen, fixed z-50 cover, min 10 s unless art is HTTP-cache warm
       ├─ HUD grid            utilities: absolute z-10 CSS grid of [data-slot] wrappers
       │  ├─ rail             PlayerProfile (static), GameMenu, CurrentChapter (static), PlayerStatus (stacked)
-      │  ├─ system           SystemBar            right top, decorative, static
+      │  ├─ system           SystemBar            right top, fullscreen + ambient audio island
       │  ├─ welcome          WelcomePanel + SectionOverlay   right, one visible at a time
       │  ├─ quests           QuestBoard            left bottom, overflows the rail column
       │  ├─ corner           Companion (island) + SocialLinks (static)  right bottom
@@ -27,7 +27,7 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
 
 Astro wraps every hydrated component in an `<astro-island>` element. `[&_astro-island]:contents` on the HUD grid root lets rendered panels join the slot's flex/grid layout directly. Without it, siblings stack at zero height and overlap. Do not remove it, and do not assume an island's own tag is a layout box.
 
-Only components reading a store or attaching a handler get `client:load` — nine now: `LoadingScreen`, `GameMenu`, `PlayerStatus`, `WelcomePanel`, `SectionOverlay`, `QuestBoard`, `PlayerChips`, `TabBar`, `Companion`. `PlayerProfile`, `CurrentChapter`, `SystemBar` and `SocialLinks` stay static imports: plain HTML, no `<astro-island>` wrapper, smaller JS payload. Add a hook or handler to one → add `client:load` back in `index.astro`.
+Only components reading a store or attaching a handler get `client:load` — ten now: `LoadingScreen`, `GameMenu`, `PlayerStatus`, `WelcomePanel`, `SectionOverlay`, `QuestBoard`, `PlayerChips`, `TabBar`, `Companion`, `SystemBar`. `PlayerProfile`, `CurrentChapter` and `SocialLinks` stay static imports: plain HTML, no `<astro-island>` wrapper, smaller JS payload. Add a hook or handler to one → add `client:load` back in `index.astro`.
 
 ## Layers
 

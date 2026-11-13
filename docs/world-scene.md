@@ -10,12 +10,12 @@ Desktop order bottom → top:
 
 | Layer | Element | Geometry (1920×1080) | Style |
 |---|---|---|---|
-| Background | root `<img>` (`z-0`, `object-cover object-center`) | full bleed | `images/world-bg.webp` |
+| Background | root `<Image>` (`z-0`, `object-cover object-center`) | full bleed | `images/world-bg.webp` |
 | Ambient | first radial `<div>` (`z-[1]`) | 180,420 · 1000×660 | radial primary-dark → secondary → transparent, opacity 0.5, blur 60 |
 | Fog | horizontal band `<div>` (`z-[2]`) | 0,700 · 100%×200 | horizontal secondary gradient, opacity 0.35, blur 60 |
 | Aura | character halo `<div>` (`z-[3]`) | 560,270 · 660×700 | radial primary, opacity 0.7 |
 | Shadow | ground shadow `<div>` (`z-[4]`) | 700,804 · 340×32 | radial void, opacity 0.55, blur 8 |
-| Character | `<div>` wrapper (`z-[5]`) around one `<picture>` | 678,392 · 433×687 | `images/character.webp` (desktop), `character-mobile.webp` via `media="(max-width: 1023px)"`, `object-fit: cover` |
+| Character | `<div>` wrapper (`z-[5]`) around one `<picture>` whose inner image is an `astro:assets` `<Image>` | 678,392 · 433×687 | `images/character.webp` (desktop), `character-mobile.webp` via `media="(max-width: 1023px)"`, `object-fit: cover` |
 | Petals | petal `<span>`s (`z-[6]`) ×16 desktop + 7 mobile | `--x --y --w --h --rot` custom props | `rounded-full`, accent-pink, `--o` opacity |
 | Fades | left/right `<span>`s (left `z-[7]` + right no z-index, both `mobile:hidden`) + top/bottom (`mobile:z-[1]`) | see utilities | void gradients as `bg-[linear-gradient(...)]` |
 
@@ -43,6 +43,9 @@ Petal drift uses `motion-safe:animate-petal-float` — alternating petals use `m
 ## Invariants
 
 - `WorldScene` renders once in `index.astro` before HUD, with `aria-hidden="true"` and empty `alt` on background and character images.
-- Background image = `loading="eager"` + `fetchpriority="high"`; `LoadingScreen` also preloads it with `new Image()`.
+- Background and character art render through `astro:assets` `<Image>` with `width`/`height` set. Both `src` values stay `public/images/*` strings, so Astro passes them through unoptimized (no `srcset`, no re-encode) — the component buys the CLS guard and satisfies the dev-toolbar `perf-use-image-component` audit.
+- `<picture>` + raw `<source media>` stays native for the character because `Picture` cannot art-direct two separate files by media query; only its inner image is an `<Image>`.
+- Background image = `priority` (eager + `fetchpriority="high"`) with explicit `decoding="async"`; `LoadingScreen` also preloads it with `new Image()`.
+- `astro:assets` is Astro-only. Preact islands (`QuestBoard`, `ProjectPanel`) render plain `<img>` with `width`/`height` for the same CLS guard — do not try to import `astro:assets` there.
 - Every colour derives from `@theme` tokens via `color-mix()`; no raw hex.
 - Do not add canvas, WebGL, or animation loop. World intentionally static layers.

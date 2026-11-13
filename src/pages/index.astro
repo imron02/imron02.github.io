@@ -27,7 +27,7 @@ import WorldScene from "../components/world/WorldScene.astro";
       <CurrentChapter />
       <PlayerStatus client:load />
     </div>
-    <div data-slot="system" class="min-w-0 pointer-events-auto col-start-3 row-start-1 justify-self-end self-start mobile:col-start-1 mobile:row-start-1 mobile:block mobile:justify-self-stretch mobile:self-start mobile:mt-6"><SystemBar /></div>
+    <div data-slot="system" class="min-w-0 pointer-events-auto col-start-3 row-start-1 justify-self-end self-start mobile:col-start-1 mobile:row-start-1 mobile:block mobile:justify-self-stretch mobile:self-start mobile:mt-6"><SystemBar client:load /></div>
     <div data-slot="welcome" class="min-w-0 pointer-events-auto col-start-3 row-start-2 self-center justify-self-end w-full min-h-0 transform-[translateY(clamp(0px,0.83vh,9px))] mobile:col-start-1 mobile:row-start-4 mobile:self-stretch mobile:justify-self-stretch mobile:w-full mobile:transform-none mobile:flex mobile:flex-col mobile:justify-end mobile:pb-6.25 mobile:overflow-y-auto mobile:scrollbar-none mobile:[&::-webkit-scrollbar]:hidden">
       <WelcomePanel client:load />
       <SectionOverlay client:load />

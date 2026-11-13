@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 const base = import.meta.env.BASE_URL;
 
 type Petal = {
@@ -60,15 +62,14 @@ const petalStyle = (petal: Petal, frameWidth: number, frameHeight: number) => {
   class="absolute inset-0 overflow-hidden pointer-events-none"
   aria-hidden="true"
 >
-  <img
+  <Image
     class="absolute z-0 inset-0 block h-full w-full object-cover object-center"
     src={`${base}images/world-bg.webp`}
     alt=""
-    width="1376"
-    height="768"
-    loading="eager"
+    width={1376}
+    height={768}
+    priority
     decoding="async"
-    fetchpriority="high"
   />
 
   <span
@@ -92,12 +93,12 @@ const petalStyle = (petal: Petal, frameWidth: number, frameHeight: number) => {
         media="(max-width: 1023px)"
         srcset={`${base}images/character-mobile.webp`}
       />
-      <img
+      <Image
         class="block h-full w-full object-cover mobile:object-contain mobile:object-right"
         src={`${base}images/character.webp`}
         alt=""
-        width="934"
-        height="1480"
+        width={934}
+        height={1480}
         loading="eager"
         decoding="async"
       />
