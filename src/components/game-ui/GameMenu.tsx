@@ -14,6 +14,8 @@ import type { GameSection } from "../../state/game";
 import NavItem from "../ui/NavItem";
 import Panel from "../ui/Panel";
 import { useStore } from "@nanostores/preact";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 
 export const menuItems: {
   id: GameSection;
@@ -67,16 +69,20 @@ export default function GameMenu() {
       as="nav"
       variant="hud"
       accent="primary"
-      class="game-menu"
+      class="flex-none bg-hud-panel-menu border-[color:color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
+      spine={false}
+      bodyClass="p-0 gap-0"
       aria-label="Main menu"
     >
-      <div class="game-menu__head">
-        <p class="ds-hud-label game-menu__label">// COMMAND</p>
-        <span class="game-menu__count">
+      <div class="flex items-center justify-between gap-2 h-9 px-4 short-1000:h-7.5 short-900:h-7 short-820:h-6">
+        <p class={cn(text({ role: "hud-label" }), "text-[9.5px] tracking-[2px] text-text-faint")}>
+          {"// COMMAND"}
+        </p>
+        <span class="font-hud text-[9.5px] leading-[1.2] tracking-[1.4px] text-primary-hover">
           {menuItems.length.toString().padStart(2, "0")}
         </span>
       </div>
-      <ul class="ds-nav-list">
+      <ul class="list-none m-0 p-0">
         {menuItems.map((item, index) => (
           <li key={item.id}>
             <NavItem
@@ -85,6 +91,7 @@ export default function GameMenu() {
               icon={item.icon}
               active={section === item.id}
               onClick={() => gameActions.goTo(item.id)}
+              class={section === item.id || index === 0 ? undefined : "border-t-border-subtle"}
             />
           </li>
         ))}

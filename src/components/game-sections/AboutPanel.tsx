@@ -1,36 +1,38 @@
 import { profile } from "../../data/profile";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 import Badge from "../ui/Badge";
+
+const facts = [
+  { term: "Class", value: profile.class },
+  { term: "Experience", value: profile.yearsOfExperience },
+  { term: "Location", value: profile.location },
+  { term: "Status", value: "Available for quests" },
+];
 
 export default function AboutPanel() {
   return (
-    <div class="ds-stack">
+    <div class="grid gap-[0.9rem]">
       <div>
-        <h2 class="ds-heading-2">{profile.name}</h2>
-        <p class="ds-body-sm ds-text-muted">{profile.title}</p>
+        <h2 class={text({ role: "heading-2" })}>{profile.name}</h2>
+        <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{profile.title}</p>
       </div>
-      <dl class="ds-info-list">
-        <div class="ds-info-row">
-          <dt class="ds-hud-micro">Class</dt>
-          <dd class="ds-caption ds-text-secondary">{profile.class}</dd>
-        </div>
-        <div class="ds-info-row">
-          <dt class="ds-hud-micro">Experience</dt>
-          <dd class="ds-caption ds-text-secondary">
-            {profile.yearsOfExperience}
-          </dd>
-        </div>
-        <div class="ds-info-row">
-          <dt class="ds-hud-micro">Location</dt>
-          <dd class="ds-caption ds-text-secondary">{profile.location}</dd>
-        </div>
-        <div class="ds-info-row">
-          <dt class="ds-hud-micro">Status</dt>
-          <dd class="ds-caption ds-text-secondary">Available for quests</dd>
-        </div>
+      <dl class="m-0">
+        {facts.map((fact) => (
+          <div
+            key={fact.term}
+            class="flex items-center justify-between gap-4 py-1.5 border-t border-border-subtle first:border-t-0"
+          >
+            <dt class={text({ role: "hud-micro" })}>{fact.term}</dt>
+            <dd class={cn(text({ role: "caption" }), "text-text-secondary", "m-0 text-right")}>
+              {fact.value}
+            </dd>
+          </div>
+        ))}
       </dl>
-      <div class="ds-stack ds-stack--tight">
-        <p class="ds-hud-label">SPECIALIZATION</p>
-        <ul class="ds-chip-list">
+      <div class="grid gap-2">
+        <p class={text({ role: "hud-label" })}>SPECIALIZATION</p>
+        <ul class="flex flex-wrap gap-1.5 list-none m-0 p-0">
           {profile.specialization.map((item) => (
             <li key={item}>
               <Badge tone="secondary">{item}</Badge>
@@ -38,9 +40,9 @@ export default function AboutPanel() {
           ))}
         </ul>
       </div>
-      <div class="ds-stack ds-stack--tight">
-        <p class="ds-hud-label">CHARACTER DESCRIPTION</p>
-        <p class="ds-body-sm ds-text-muted">{profile.bio}</p>
+      <div class="grid gap-2">
+        <p class={text({ role: "hud-label" })}>CHARACTER DESCRIPTION</p>
+        <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{profile.bio}</p>
       </div>
     </div>
   );

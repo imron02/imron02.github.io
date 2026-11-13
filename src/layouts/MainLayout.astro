@@ -3,8 +3,7 @@ import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/orbitron";
 import "../styles/global.css";
-import "../styles/design-system.css";
-import "../styles/game-ui.css";
+import { MOBILE_QUERY, worldAssetUrls } from "../lib/worldAssets";
 
 interface Props {
   title?: string;
@@ -15,6 +14,13 @@ const {
   title = "Imron Rosdiana — Anime RPG Portfolio",
   description = "An anime-RPG portfolio world for Imron Rosdiana — senior frontend engineer crafting modern web and mobile experiences.",
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const warmProbe = JSON.stringify({
+  mobileQuery: MOBILE_QUERY,
+  desktop: worldAssetUrls(base, false),
+  mobile: worldAssetUrls(base, true),
+});
 ---
 
 <!doctype html>
@@ -37,10 +43,45 @@ const {
     />
     <title>{title}</title>
     <noscript>
-      <style is:inline>.loading-screen{display:none!important}</style>
+      <style is:inline>#loading-screen{display:none!important}</style>
     </noscript>
+    <script is:inline data-warm-probe={warmProbe}>
+      (function () {
+        var cfg;
+        try {
+          cfg = JSON.parse(
+            document.currentScript.getAttribute("data-warm-probe"),
+          );
+        } catch (e) {
+          return;
+        }
+        var targets = window.matchMedia(cfg.mobileQuery).matches
+          ? cfg.mobile
+          : cfg.desktop;
+        window.__worldWarmProbe = Promise.all(
+          targets.map(function (url) {
+            return fetch(url, { cache: "only-if-cached", mode: "same-origin" })
+              .then(function (res) {
+                return res.ok || res.type === "opaque";
+              })
+              .catch(function () {
+                return false;
+              });
+          }),
+        ).then(function (flags) {
+          var warm = flags.length > 0 && flags.every(Boolean);
+          if (warm) document.documentElement.setAttribute("data-world-warm", "");
+          return warm;
+        });
+      })();
+    </script>
+    <style is:inline>
+      html[data-world-warm] #loading-screen {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <main class="game-stage"><slot /></main>
+    <main class="relative h-dvh overflow-hidden bg-void"><slot /></main>
   </body>
 </html>

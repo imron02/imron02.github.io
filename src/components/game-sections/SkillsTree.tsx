@@ -1,16 +1,18 @@
 import { masteryLevels, skillGroups } from "../../data/skills";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 import SkillMeter from "../ui/SkillMeter";
 
 export default function SkillsTree() {
   return (
-    <div class="ds-stack">
+    <div class="grid gap-[0.9rem]">
       {skillGroups.map((group) => (
-        <div key={group.id} class="ds-stack ds-stack--tight">
-          <h3 class="ds-hud-label skill-group__title">{group.title}</h3>
-          <ul class="skill-list">
+        <div key={group.id} class="grid gap-2">
+          <h3 class={cn(text({ role: "hud-label" }), "text-secondary")}>{group.title}</h3>
+          <ul class="grid gap-2 list-none m-0 p-0">
             {group.skills.map((skill) => (
-              <li key={skill.name}>
-                <span class="ds-body-sm">{skill.name}</span>
+              <li key={skill.name} class="flex items-center justify-between gap-3 text-[14px]">
+                <span class={text({ role: "body-sm" })}>{skill.name}</span>
                 <SkillMeter
                   level={masteryLevels[skill.mastery]}
                   label={`${skill.mastery} mastery`}

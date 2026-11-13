@@ -10,13 +10,13 @@ const icons: Record<string, ComponentChildren> = {
 
 export default function SocialLinks() {
   return (
-    <ul class="social-links" aria-label="Social links">
+    <ul class="flex gap-2 list-none m-0 p-0 mobile:hidden" aria-label="Social links">
       {profile.socials.map((social) => {
         const isExternal = social.href.startsWith("http");
         return (
           <li key={social.label}>
             <a
-              class="social-links__item"
+              class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] bg-hud-panel-quiet text-text-secondary transition-[color,border-color] duration-150 ease-[ease] hover:text-text-primary hover:border-primary"
               href={social.href}
               aria-label={social.label}
               title={social.label}

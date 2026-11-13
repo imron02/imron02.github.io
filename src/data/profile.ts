@@ -49,10 +49,8 @@ export const profile: Profile = {
   class: "Frontend Engineer",
   yearsOfExperience: "10+ years",
   specialization: ["React", "Next.js", "React Native", "TypeScript"],
-  tagline:
-    "Crafting beautiful and engaging digital experiences with modern technologies.",
-  bio:
-    "Passionate about building modern digital experiences through frontend engineering, creative problem-solving, and continuous learning.",
+  tagline: "Crafting beautiful and engaging digital experiences with modern technologies.",
+  bio: "Passionate about building modern digital experiences through frontend engineering, creative problem-solving, and continuous learning.",
   availability: "Open to work",
   chapter: {
     index: 1,
@@ -73,9 +71,7 @@ export const profile: Profile = {
   ],
 };
 
-export const xpPercent = Math.round(
-  (profile.xp.current / profile.xp.goal) * 100,
-);
+export const xpPercent = Math.round((profile.xp.current / profile.xp.goal) * 100);
 
 export const xpRemaining = profile.xp.goal - profile.xp.current;
 

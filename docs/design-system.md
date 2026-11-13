@@ -1,24 +1,31 @@
 # Design system
 
-> Read when: adding or changing UI, writing CSS, or checking accessibility. Do not read the whole of `design-system.css` — grep for the class.
+> Read when: adding/changing UI, writing utilities, checking accessibility.
 
-## Three style layers
+## One stylesheet
 
-| File | Scope | Imported by |
-|---|---|---|
-| `src/styles/global.css` | Tailwind import + `@theme` tokens + base resets | `MainLayout.astro` |
-| `src/styles/design-system.css` | Global `.ds-*` primitives (the reusable kit) | `MainLayout.astro` |
-| `src/styles/game-ui.css` | HUD layout, panel-specific classes, responsive rules, keyframes | `MainLayout.astro` |
+| File | Scope |
+|---|---|
+| `src/styles/global.css` | Tailwind import, the five `@custom-variant` breakpoints, `@theme` tokens (incl. `--animate-*` keys + keyframes), base resets, reduced-motion neutralizer |
 
-Order matters — tokens, then primitives, then HUD overrides.
+Only project stylesheet; font packages are imported in `MainLayout.astro`. No `.ds-*` or BEM stylesheets — every component styled with Tailwind utilities in the `.tsx` / `.astro` file that renders it. Shared class data lives in two helpers:
 
-**Rule of placement:** if a class could be used outside the HUD, it belongs in `design-system.css`. If it encodes HUD composition (`profile-panel`, `quest-board`, `welcome-panel`, `section-overlay`), it belongs in `game-ui.css`. Never add a fourth stylesheet.
+- **`cn(...)`** (`src/lib/cn.ts`) = `twMerge(clsx(...))`. Conflicting utilities in same class group collapse, **last argument wins**. Caller's `class` / `bodyClass` / `spineClass` always the last `cn` argument. Tuned so `font-size` does not resolve against `leading`, and the three project animations merge as one group. Single-source classes skip it: a lone literal is `class="…"`, a lone cva call is `class={panel({ variant })}`.
+- **`cva(...)`** (`class-variance-authority`) — variants as data: `ui/` primitives (Panel, Button, Badge, NavItem, ProgressBar, SkillMeter, StatTile) plus component-local recipes (QuestBoard card, TabBar item). cva only concatenates; wrap it in `cn(...)` only when another source must merge over it — `cn(panel({ variant }), className)`.
 
-Tailwind utilities are available but the codebase is class-based CSS. Match the surrounding style (`.ds-*` classes + `Panel`/`Button` primitives) rather than rewriting to utilities.
+Hard rules:
+
+- Trailing `!` allowed only when a utility must beat an **ancestor** rule or `@layer base`. None today. Component-to-component precedence: `cn` argument order; variant precedence (`xs:` over `mobile:`): CSS emission order.
+- Never build class names dynamically. Every class string a complete literal in source; cva variant maps the only indirection, their values literals.
+- Gradients are background **images**: `bg-[linear-gradient(...)]` / `bg-[radial-gradient(...)]`, never the `[background:…]` arbitrary property — that group can never be overridden by a later `bg-<color>`.
+- Always spell transitions in full: `transition-[background-color,color] duration-150 ease-[ease]`.
+- Underscores inside arbitrary values become spaces: `bg-[color:color-mix(in_srgb,var(--color-primary)_30%,transparent)]`.
+- Canonical classes first: when the scale class or `@theme` token is numerically identical, use the utility — `py-[6px]`→`py-1.5`, `p-[13px]`→`p-3.25`, `w-[62px]`→`w-15.5`, `gap-[0.5rem]`→`gap-2`, `rounded-[var(--radius-m)]`→`rounded-m`, `opacity-[0.85]`→`opacity-85`, `duration-[150ms]`→`duration-150`, `aspect-[16/9]`→`aspect-video`. Spacing utilities are rem-based (`--spacing: 0.25rem`), so they follow the root font size; a raw `px` arbitrary value does not.
+- Keep arbitrary values only where no exact class exists: non-quarter multipliers (`gap-[0.9rem]`), fluid `clamp()`/`env()`/`min()` lengths, multi-value padding/margin without exact parts, sub-pixel font sizes and tracking (`text-[8.5px]`, `tracking-[1.4px]`), `color-mix(in srgb, …)` alpha derivations, gradients, shadows, `flex-[…]`/`grid-cols-[…]` templates. `pnpm lint` enforces the padding/gap/radius cases (`nursery/noTailwindArbitraryValue`, allowlist in `biome.json`).
 
 ## Tokens (`@theme` in `global.css`)
 
-All are CSS custom properties under `:root` via `@theme`.
+All CSS custom properties under `:root` via `@theme`.
 
 **Surfaces:** `--color-bg` `#080b25`, `--color-surface`, `--color-surface-elevated`, `--color-surface-overlay`, `--color-surface-hover`
 
@@ -40,63 +47,82 @@ All are CSS custom properties under `:root` via `@theme`.
 
 **Type:** `--font-display` (Space Grotesk Variable), `--font-body` (Inter Variable), `--font-hud` (Orbitron Variable) — loaded via `@fontsource-variable/*` in `MainLayout.astro`
 
-**Radii:** `--radius-xs` 2px, `--radius-cta` 3px, `--radius-s` 4px, `-m` 8px, `-l` 12px, `-xl` 16px, `-pill` 999px
+**Radii:** `--radius-xs` 2px, `--radius-cta` 3px, `--radius-s` 4px, `-m` 8px, `-l` 12px, `-xl` 16px, `-pill` 999px — referenced as `rounded-xs`, `rounded-cta`, `rounded-s`, `rounded-m`, `rounded-l`, `rounded-xl`; `--radius-pill` (999px) is `rounded-full`, which Tailwind emits as `calc(infinity * 1px)` — use it only on square elements; a `50%` ellipse needs `rounded-[50%]`
 
 **Space:** `--space-4` … `--space-96` (4/8/12/16/24/32/48/64/80/96)
 
-Never introduce a new color literal in TSX or in the HUD stylesheet. Alpha variants of a token are derived at use-site with `color-mix(in srgb, var(--color-x) N%, transparent)`; `game-ui.css` is token-only. Both token-only stylesheets forbid color literals and radius literals that have a token; derive alpha variants at use-site with `color-mix()`.
+Never introduce a raw color literal in TSX or CSS. Whole-token values use generated utilities (`text-text-muted`, `bg-hud-panel`, `border-border-subtle`, `bg-tint-gold`); alpha derivations keep the expression: `bg-[color:color-mix(…)]`, `text-[color:…]`, `border-[color:…]`.
 
-## Typography classes
+## Typography (`src/lib/typography.ts`)
 
-`ds-display-xl` (64) · `ds-display-lg` (48) · `ds-heading-1` (36) · `ds-heading-2` (28) · `ds-heading-3` (22) · `ds-body-lg` (18) · `ds-body` (16) · `ds-body-sm` (14) · `ds-caption` (12) · `ds-hud` (11, uppercase, 0.18em) · `ds-hud-label` (9, muted) · `ds-hud-micro` (8, disabled)
+`text({ role })` cva replaces old `.ds-*` classes. Roles: `heading-2` (28px display) · `heading-3` (22px) · `body-sm` (14px) · `caption` (12px) · `hud-label` (9px Orbitron, uppercase, 0.18em, muted) · `hud-micro` (8px, disabled). Every role bundles `m-0`, family, line-height, tracking where relevant, color. HUD roles = "game UI" voice (uppercase Orbitron, wide tracking); body copy Inter; headings Space Grotesk.
 
-HUD classes are the "game UI" voice: uppercase Orbitron with wide tracking. Body copy uses `ds-body*`. Headings use Space Grotesk.
+`cn` no longer resolves font-size against line-height, so callers can resize a role without losing leading: `cn(text({ role: "hud-label" }), "text-[8px]")`.
 
-Color helpers: `ds-text-primary`, `-secondary`, `-muted`, `-disabled`, `-info`, `-gold`, `ds-gradient-text`.
+Color helpers plain utilities: `text-text-primary`, `-secondary`, `-muted`, `-disabled`, `text-info`, `text-accent-gold`. Gradient-filled text uses `gradientText`; add `[-webkit-background-clip:text]` only where original CSS had the prefixed declaration — welcome title relies on it.
 
 ## Layout helpers
 
-`ds-stack` (grid, 0.9rem gap) · `ds-stack--tight` (0.5rem) · `ds-chip-list` · `ds-info-list` + `ds-info-row` (label/value rows with top borders) · `ds-divider`
+Inline recipes — no classes:
+
+- stack `grid gap-[0.9rem]` · tight stack `grid gap-2`
+- chip list `flex flex-wrap gap-1.5 list-none m-0 p-0`
+- info rows `flex items-center justify-between gap-4 py-1.5 border-t border-border-subtle first:border-t-0`, their `dd`: `m-0 text-right`
+- block button `w-full justify-between` (passed as `class`; `cn` merges it over base `justify-center`)
 
 ## Primitives
 
 | Component | Props | Notes |
 |---|---|---|
-| `Button` | `variant` `primary\|secondary\|ghost\|danger\|disabled`, `icon`, `trailingIcon`, `href`, `external`, `disabled`, `type` | Renders `<a>` when `href` is set; `external` adds `target="_blank" rel="noreferrer"`. `ds-button--block` makes it full-width. |
+| `Button` | `variant` `primary\|secondary\|ghost\|danger\|disabled`, `icon`, `trailingIcon`, `href`, `external`, `disabled`, `type` | Renders `<a>` when `href` set; `external` adds `target="_blank" rel="noreferrer"`. Full-width rows get `class="w-full justify-between"`. |
 | `IconButton` | `label` (required), `icon`, `tone` `default\|primary\|danger`, `size` `sm\|md` | Always sets `aria-label` + `title`. Icon-only buttons must use this, not `Button`. |
-| `Panel` | `variant` `hud\|glass\|floating\|modal`, `accent` `primary\|secondary\|gold\|pink\|danger`, `as` `section\|aside\|nav\|div\|article` | `hud`/`glass` render the 2px left spine. `modal`/`floating` do not. |
+| `Panel` | `variant` `hud\|glass\|floating\|modal`, `accent` `primary\|secondary\|gold\|pink\|danger`, `as` `section\|aside\|nav\|div\|article`, `bodyClass`, `spine` (default `true`), `spineClass` | `hud`/`glass` render 2px left spine unless `spine={false}`. `bodyClass`/`spineClass` merge after variant utilities, so padding/gap/gradient overrides win. |
 | `Badge` | `tone` `gold\|primary\|secondary\|muted\|success\|danger\|info` | Non-interactive chip. |
-| `NavItem` | `index`, `label`, `icon`, `active`, `onClick` | Sets `aria-current="page"` when active. |
-| `ProgressBar` | `value` 0–100, `label`, `tone`, `size` `sm\|md` | Clamps internally, exposes `role="progressbar"`. |
+| `NavItem` | `index`, `label`, `icon`, `active`, `onClick` | Styles baked for GameMenu context (only consumer). Sets `aria-current="page"` when active. |
+| `ProgressBar` | `value` 0–100, `label`, `tone`, `size` `sm\|md` | Clamps internally, exposes `role="progressbar"`. Caller `class` lands on root; tone bar is a `[&>span]` target for overrides. |
 | `SkillMeter` | `level`, `max` (default 4), `label` | Segmented pips, `role="img"` + label. |
 | `StatTile` | `label`, `value`, `sub`, `subTone` | Static metric block. Currently unused — available for stat rows. |
 
 Primitive conventions to copy:
 
 ```tsx
-const rootClass = ["ds-button", `ds-button--${variant}`, className]
-  .filter(Boolean)
-  .join(" ");
+const panel = cva("relative flex min-w-0 text-left", {
+  variants: { variant: { hud: "bg-hud-panel …", glass: "…" } },
+  defaultVariants: { variant: "hud" },
+});
+
+<Tag class={cn(panel({ variant }), className)} {...rest}>
 ```
 
-Boolean/optional props use defaults in the destructure; `class: className` aliasing; `...rest` spread last (except where an explicit prop must win); default export; no React namespace usage.
+Boolean/optional props use defaults in destructure; `class: className` aliasing; `...rest` spread last (except where explicit prop must win); default export; no React namespace usage.
 
 ## Accessibility baseline
 
-- Exactly one `<h1>` on the page — `WelcomePanel`'s title. Detail panels use `<h2>`; nested group titles use `<h3>`. `SkillsTree` starts at `<h3>` (it renders group headings inside the overlay). Do not add a heading level purely to satisfy a numbering rule, and never add a second `<h1>`.
+- Exactly one `<h1>` on page — `WelcomePanel`'s title. Detail panels use `<h2>`; nested group titles `<h3>`. `SkillsTree` starts at `<h3>` (renders group headings inside overlay). Do not add a heading level purely to satisfy a numbering rule, and never add a second `<h1>`.
 - Every icon-only control has an accessible name (`IconButton`'s `label`).
-- Decorative images use `alt=""`; the whole `WorldScene` layer is `aria-hidden`.
+- Decorative images use `alt=""`; whole `WorldScene` layer is `aria-hidden`.
 - Loading state is a `role="status"` region with `aria-live="polite"`.
-- Focus: global `:focus-visible` gives a 3px `--color-focus-ring` outline; components may narrow it to 2px. Never remove the outline.
-- Overlay headings are `tabIndex={-1}` programmatic focus targets and suppress the focus ring; opening a section moves focus to its heading, `Escape` returns home and restores focus to `#welcome-title`.
+- Focus: global `:focus-visible` gives 3px `--color-focus-ring` outline; components may narrow to 2px. Never remove the outline.
+- Overlay headings: `tabIndex={-1}` programmatic focus targets, suppress focus ring; opening a section moves focus to its heading, `Escape` returns home and restores focus to `#welcome-title`.
 - Interactive targets are real `<button type="button">` or `<a>`. Do not attach `onClick` to `div`s.
-- State communicated visually must also be duplicated semantically — e.g. `aria-current`, `aria-valuenow`, the meter's `aria-label`.
+- State communicated visually must also be duplicated semantically — e.g. `aria-current`, `aria-valuenow`, meter's `aria-label`.
 
 ## Motion
 
-- Global reduced-motion block in `game-ui.css` neutralizes animation/transition for `prefers-reduced-motion: reduce`.
-- New animations go behind `@media (prefers-reduced-motion: no-preference)`; the petal drift and welcome-panel float are the current pair.
+- `@keyframes` for `panel-float`, `petal-float`, `bar-shimmer` and `hint-fade` live inside `@theme` in `global.css`, exposed as matching `--animate-*` tokens (`petal-float-long` encodes `9s` / `-3s` delay in shorthand). Apply only via `motion-safe:animate-*` — welcome panel float, petal drift, loading-bar shimmer, loading-hint fade. Register every new name in the `cn.ts` tailwind-merge `animate` theme too.
+- Global `prefers-reduced-motion: reduce` block pins animation/transition durations to 0.01 ms with `animation-iteration-count: 1`.
+- New motion: add keyframe + `--animate-*` token in `@theme`, apply behind `motion-safe:`.
 
 ## Responsive
 
-Single breakpoint: `@media (max-width: 1023px)`. It restacks `.game-hud` to the mobile rows (system → chips → companion → welcome → quests → tabs), swaps the world layer's positions and images, and reveals the tab bar. Desktop also has three `max-height` compaction tiers (1000/900/820) that shrink the rail so it never scrolls. Spacing/font sizes elsewhere use `clamp()`. Check both layouts for any UI change.
+Five custom variants registered in `global.css`. Tailwind emits `@custom-variant` blocks in registration order, so **later wins without `!`** — `mobile` before `xs` is load-bearing:
+
+| Variant | Condition |
+|---|---|
+| `mobile:` | `(max-width: 1023px)` |
+| `xs:` | `(max-width: 400px)` — overrides `mobile:` at ≤400px by registration order |
+| `short-1000:` | `(min-width: 1024px) and (max-height: 1000px) and (height > 900px)` |
+| `short-900:` | `(min-width: 1024px) and (max-height: 900px) and (height > 820px)` |
+| `short-820:` | `(min-width: 1024px) and (max-height: 820px)` |
+
+Three short tiers mutually exclusive, together cover every height. Design's old stacked `max-height` media queries were cumulative: when matching them, compute **effective value per band** (>1000px / 901–1000 / 821–900 / ≤820) and emit it on the matching variant. `mobile:` layout restacks HUD to rows (system → chips → companion → welcome → quests → tabs), swaps world layer positions/images, reveals tab bar; desktop short tiers shrink rail so it never scrolls. Spacing/font sizes elsewhere use `clamp()`. Check both layouts and all three desktop tiers for any UI change.

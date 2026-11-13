@@ -1,6 +1,8 @@
 import { useStore } from "@nanostores/preact";
 import { ArrowLeft, ArrowUpRight } from "lucide-preact";
 import { projects } from "../../data/projects";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 import { $selectedProject, gameActions } from "../../state/game";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
@@ -11,7 +13,7 @@ export default function ProjectPanel() {
 
   if (project) {
     return (
-      <div class="ds-stack">
+      <div class="grid gap-[0.9rem]">
         <Button
           variant="ghost"
           icon={<ArrowLeft size={14} strokeWidth={1.5} />}
@@ -20,15 +22,15 @@ export default function ProjectPanel() {
           Back to quest log
         </Button>
         <img
-          class="quest-detail__thumb"
+          class="w-full aspect-video object-cover rounded-m opacity-85"
           src={`${import.meta.env.BASE_URL}${project.thumbnail}`}
           alt=""
           decoding="async"
         />
-        <p class="ds-hud-label quest-detail__category">{project.category}</p>
-        <h2 class="ds-heading-2">{project.title}</h2>
-        <p class="ds-body-sm ds-text-muted">{project.description}</p>
-        <ul class="ds-chip-list">
+        <p class={cn(text({ role: "hud-label" }), "text-secondary")}>{project.category}</p>
+        <h2 class={text({ role: "heading-2" })}>{project.title}</h2>
+        <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{project.description}</p>
+        <ul class="flex flex-wrap gap-1.5 list-none m-0 p-0">
           {project.technologies.map((technology) => (
             <li key={technology}>
               <Badge tone="secondary">{technology}</Badge>
@@ -40,7 +42,7 @@ export default function ProjectPanel() {
             href={project.demoUrl}
             external
             variant="ghost"
-            class="ds-button--block"
+            class="w-full justify-between"
             trailingIcon={<ArrowUpRight size={13} strokeWidth={1.5} />}
           >
             Open live demo
@@ -51,7 +53,7 @@ export default function ProjectPanel() {
             href={project.repositoryUrl}
             external
             variant="ghost"
-            class="ds-button--block"
+            class="w-full justify-between"
             trailingIcon={<ArrowUpRight size={13} strokeWidth={1.5} />}
           >
             View repository
@@ -62,21 +64,19 @@ export default function ProjectPanel() {
   }
 
   return (
-    <ul class="quest-list">
+    <ul class="grid gap-2 list-none m-0 p-0">
       {projects.map((item) => (
         <li key={item.id}>
           <button
             type="button"
-            class="quest-row"
+            class="w-full grid grid-cols-[auto_1fr_auto] items-center gap-[0.6rem] px-[0.6rem] py-2 border border-border-subtle rounded-s bg-surface-overlay text-text-primary text-left cursor-pointer hover:border-primary"
             onClick={() => gameActions.selectProject(item.id)}
           >
-            <span class="ds-hud-micro ds-text-info">
+            <span class={cn(text({ role: "hud-micro" }), "text-info")}>
               {item.id.toUpperCase()}
             </span>
-            <span class="quest-row__title">{item.title}</span>
-            <span class="ds-caption ds-text-muted">
-              {item.category}
-            </span>
+            <span class="text-[12px]">{item.title}</span>
+            <span class={cn(text({ role: "caption" }), "text-text-muted")}>{item.category}</span>
           </button>
         </li>
       ))}

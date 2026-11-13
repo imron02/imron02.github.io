@@ -1,0 +1,86 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["src/**/*", "astro.config.mjs"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "tailwind": {
+    "stylesheet": "./src/styles/global.css"
+  },
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "tailwind": "recommended"
+    },
+    "rules": {
+      "preset": "recommended",
+      "nursery": {
+        "noTailwindArbitraryValue": {
+          "level": "error",
+          "options": {
+            "allowedCategories": ["layout", "color", "typography", "effects", "motion"],
+            "allowedClasses": [
+              "gap-[0.9rem]",
+              "gap-[0.6rem]",
+              "px-[0.6rem]",
+              "gap-x-[clamp(12px,1.46vw,28px)]",
+              "gap-y-[clamp(8px,1.3vh,14px)]",
+              "gap-[clamp(8px,4.8vh,52px)]",
+              "px-[clamp(20px,3.33vw,64px)]",
+              "pt-[clamp(20px,3.52vh,38px)]",
+              "pb-[clamp(24px,5vh,54px)]",
+              "pt-[max(20px,env(safe-area-inset-top))]",
+              "rounded-[1px]",
+              "rounded-[inherit]",
+              "border-t-[1.5px]",
+              "border-r-[1.5px]"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "assist": {
+    "enabled": false
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
+}

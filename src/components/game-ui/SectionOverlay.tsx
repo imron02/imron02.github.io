@@ -11,6 +11,8 @@ import ExperienceLog from "../game-sections/ExperienceLog";
 import ContactPanel from "../game-sections/ContactPanel";
 import IconButton from "../ui/IconButton";
 import Panel from "../ui/Panel";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 
 type SectionId = Exclude<GameSection, "home">;
 
@@ -22,22 +24,15 @@ const sections: Record<SectionId, { label: string; Body: ComponentType }> = {
   contact: { label: "COMMUNICATION PORTAL", Body: ContactPanel },
 };
 
-const sectionOrder: SectionId[] = [
-  "about",
-  "projects",
-  "skills",
-  "experience",
-  "contact",
-];
+// Insertion order = panel order in the overlay.
+const sectionOrder = Object.keys(sections) as SectionId[];
 
 export default function SectionOverlay() {
   const section = useStore($section);
 
   const closeSection = () => {
     gameActions.goTo("home");
-    requestAnimationFrame(() =>
-      document.getElementById("welcome-title")?.focus(),
-    );
+    requestAnimationFrame(() => document.getElementById("welcome-title")?.focus());
   };
 
   useEffect(() => {
@@ -62,17 +57,17 @@ export default function SectionOverlay() {
           <Panel
             key={id}
             variant="modal"
-            class="section-overlay"
+            class="w-full max-h-[calc(100dvh_-_6rem)] overflow-y-auto mobile:max-h-none"
             hidden={section !== id}
             aria-labelledby={`section-heading-${id}`}
           >
-            <div class="section-overlay__head">
+            <div class="flex justify-between items-start gap-3">
               <p
-                class="ds-hud-label section-overlay__heading"
+                class={cn(text({ role: "hud-label" }), "focus-visible:outline-none")}
                 id={`section-heading-${id}`}
                 tabIndex={-1}
               >
-                {label} // ARCHIVE
+                {`${label} // ARCHIVE`}
               </p>
               <IconButton
                 size="sm"
@@ -81,7 +76,7 @@ export default function SectionOverlay() {
                 onClick={closeSection}
               />
             </div>
-            <div class="section-overlay__body">
+            <div class="grid gap-[0.9rem]">
               <Body />
             </div>
           </Panel>

@@ -7,6 +7,7 @@ Personal portfolio for [imron02.github.io](https://imron02.github.io), built as 
 - [Astro](https://astro.build) static site, deployed to GitHub Pages
 - [Preact](https://preactjs.com) islands (`@astrojs/preact`)
 - TypeScript (strict, `verbatimModuleSyntax`)
+- [Biome](https://biomejs.dev) for linting and formatting
 - [Tailwind CSS v4](https://tailwindcss.com) via the Vite plugin (`@theme` tokens in `src/styles/global.css`)
 - [Nano Stores](https://github.com/nanostores/nanostores) for state shared across islands
 - [lucide-preact](https://lucide.dev) for icons
@@ -16,11 +17,15 @@ Requires **Node ≥ 22.23.4** and **pnpm 12.4.1**.
 ## Commands
 
 ```sh
-pnpm install   # install dependencies
-pnpm dev       # dev server at http://localhost:4321
-pnpm check     # astro check (type diagnostics)
-pnpm build     # static build → dist/
-pnpm preview   # preview the production build
+pnpm install       # install dependencies
+pnpm dev           # dev server at http://localhost:4321
+pnpm lint          # Biome lint
+pnpm lint:fix      # Biome lint with safe fixes
+pnpm format        # Biome format (write)
+pnpm format:check  # Biome format (check only)
+pnpm check         # astro check (type diagnostics)
+pnpm build         # static build → dist/
+pnpm preview       # preview the production build
 ```
 
 ## Folder map
@@ -38,11 +43,10 @@ src/
     game-sections/            About, Projects, Skills, Experience, Contact panels
     world/                    layered backdrop (images, fades, petals) — static Astro
   data/                       all copy and links (typed lorem placeholders)
+  lib/                        cn() class merge (src/lib/cn.ts) + text/gradient recipes (src/lib/typography.ts)
   state/game.ts               shared section/play/selection/loading state
   styles/
-    global.css                Tailwind import + `@theme` design tokens (single source)
-    design-system.css         global `.ds-*` primitive styles
-    game-ui.css               HUD layout, positioning, scene and responsive rules
+    global.css                Tailwind import, custom variants, `@theme` tokens, keyframes (the only stylesheet)
 ```
 
 ## Editing content
@@ -75,7 +79,7 @@ Start at [`AGENTS.md`](./AGENTS.md). It maps each kind of task to a single file 
 | Doc | Covers |
 |---|---|
 | `docs/architecture.md` | Shell, islands, HUD grid, nanostores state, loading |
-| `docs/design-system.md` | Tokens, `ds-*` primitives, a11y, motion, breakpoint |
+| `docs/design-system.md` | Tokens, `cn`/`cva` conventions, a11y, motion, responsive variants |
 | `docs/content.md` | `src/data/*` schemas and editing rules |
 | `docs/world-scene.md` | Backdrop layers, world images, fades, petals |
 | `docs/workflow.md` | Commands, verification, CI/deploy, failure modes |

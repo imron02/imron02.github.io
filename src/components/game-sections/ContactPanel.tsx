@@ -1,19 +1,19 @@
 import { ArrowUpRight, Mail } from "lucide-preact";
 import { profile } from "../../data/profile";
+import { cn } from "../../lib/cn";
+import { text } from "../../lib/typography";
 import Button from "../ui/Button";
 
-const externalLinks = profile.socials.filter(
-  (social) => !social.href.startsWith("mailto:"),
-);
+const externalLinks = profile.socials.filter((social) => !social.href.startsWith("mailto:"));
 
 export default function ContactPanel() {
   return (
-    <div class="ds-stack ds-stack--tight">
-      <p class="ds-body-sm ds-text-muted">{profile.tagline}</p>
+    <div class="grid gap-2">
+      <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{profile.tagline}</p>
       <Button
         href={`mailto:${profile.email}`}
         variant="ghost"
-        class="ds-button--block"
+        class="w-full justify-between"
         trailingIcon={<Mail size={13} strokeWidth={1.5} />}
       >
         {profile.email}
@@ -24,7 +24,7 @@ export default function ContactPanel() {
           href={social.href}
           external
           variant="ghost"
-          class="ds-button--block"
+          class="w-full justify-between"
           trailingIcon={<ArrowUpRight size={13} strokeWidth={1.5} />}
         >
           {social.label}

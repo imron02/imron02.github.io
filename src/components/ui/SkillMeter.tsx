@@ -1,3 +1,16 @@
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/cn";
+
+const pip = cva("block w-2.5 h-1 rounded-full", {
+  variants: {
+    on: {
+      true: "bg-primary shadow-[0_0_8px_color-mix(in_srgb,var(--color-primary)_70%,transparent)]",
+      false: "bg-[color:color-mix(in_srgb,var(--color-text-muted)_25%,transparent)]",
+    },
+  },
+  defaultVariants: { on: false },
+});
+
 export interface SkillMeterProps {
   level: number;
   max?: number;
@@ -5,23 +18,13 @@ export interface SkillMeterProps {
   class?: string;
 }
 
-export default function SkillMeter({
-  level,
-  max = 4,
-  label,
-  class: className,
-}: SkillMeterProps) {
-  const rootClass = ["ds-skill-meter", className].filter(Boolean).join(" ");
+export default function SkillMeter({ level, max = 4, label, class: className }: SkillMeterProps) {
   const steps = Array.from({ length: max }, (_, index) => index);
 
   return (
-    <span class={rootClass} role="img" aria-label={label}>
+    <span class={cn("inline-flex gap-0.75", className)} role="img" aria-label={label}>
       {steps.map((index) => (
-        <i
-          key={index}
-          class={index < level ? "is-on" : undefined}
-          aria-hidden="true"
-        />
+        <i key={index} class={pip({ on: index < level })} aria-hidden="true" />
       ))}
     </span>
   );

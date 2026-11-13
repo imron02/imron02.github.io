@@ -1,12 +1,6 @@
 import { atom } from "nanostores";
 
-export type GameSection =
-  | "home"
-  | "about"
-  | "projects"
-  | "skills"
-  | "experience"
-  | "contact";
+export type GameSection = "home" | "about" | "projects" | "skills" | "experience" | "contact";
 
 export const $section = atom<GameSection>("home");
 export const $selectedProject = atom<string | null>(null);
