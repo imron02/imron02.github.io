@@ -57,7 +57,7 @@ export default function SectionOverlay() {
           <Panel
             key={id}
             variant="modal"
-            class="w-full max-h-[calc(100dvh_-_6rem)] overflow-y-auto mobile:max-h-none"
+            class="w-full max-h-[calc(100dvh-6rem)] overflow-y-auto mobile:max-h-none"
             hidden={section !== id}
             aria-labelledby={`section-heading-${id}`}
           >

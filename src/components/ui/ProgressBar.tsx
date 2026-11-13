@@ -34,7 +34,7 @@ export default function ProgressBar({
   return (
     <div
       class={cn(
-        "w-full h-1 rounded-xs bg-[color:color-mix(in_srgb,var(--color-text-primary)_7%,transparent)] overflow-hidden",
+        "w-full h-1 rounded-xs bg-[color-mix(in_srgb,var(--color-text-primary)_7%,transparent)] overflow-hidden",
         size === "md" ? "h-1.5" : "",
         className,
       )}

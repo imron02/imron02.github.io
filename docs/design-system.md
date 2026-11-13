@@ -19,7 +19,7 @@ Hard rules:
 - Never build class names dynamically. Every class string a complete literal in source; cva variant maps the only indirection, their values literals.
 - Gradients are background **images**: `bg-[linear-gradient(...)]` / `bg-[radial-gradient(...)]`, never the `[background:…]` arbitrary property — that group can never be overridden by a later `bg-<color>`.
 - Always spell transitions in full: `transition-[background-color,color] duration-150 ease-[ease]`.
-- Underscores inside arbitrary values become spaces: `bg-[color:color-mix(in_srgb,var(--color-primary)_30%,transparent)]`.
+- Underscores inside arbitrary values become spaces: `bg-[color-mix(in_srgb,var(--color-primary)_30%,transparent)]`.
 - Canonical classes first: when the scale class or `@theme` token is numerically identical, use the utility — `py-[6px]`→`py-1.5`, `p-[13px]`→`p-3.25`, `w-[62px]`→`w-15.5`, `gap-[0.5rem]`→`gap-2`, `rounded-[var(--radius-m)]`→`rounded-m`, `opacity-[0.85]`→`opacity-85`, `duration-[150ms]`→`duration-150`, `aspect-[16/9]`→`aspect-video`. Spacing utilities are rem-based (`--spacing: 0.25rem`), so they follow the root font size; a raw `px` arbitrary value does not.
 - Keep arbitrary values only where no exact class exists: non-quarter multipliers (`gap-[0.9rem]`), fluid `clamp()`/`env()`/`min()` lengths, multi-value padding/margin without exact parts, sub-pixel font sizes and tracking (`text-[8.5px]`, `tracking-[1.4px]`), `color-mix(in srgb, …)` alpha derivations, gradients, shadows, `flex-[…]`/`grid-cols-[…]` templates. `pnpm lint` enforces the padding/gap/radius cases (`nursery/noTailwindArbitraryValue`, allowlist in `biome.json`).
 
@@ -51,7 +51,7 @@ All CSS custom properties under `:root` via `@theme`.
 
 **Space:** `--space-4` … `--space-96` (4/8/12/16/24/32/48/64/80/96)
 
-Never introduce a raw color literal in TSX or CSS. Whole-token values use generated utilities (`text-text-muted`, `bg-hud-panel`, `border-border-subtle`, `bg-tint-gold`); alpha derivations keep the expression: `bg-[color:color-mix(…)]`, `text-[color:…]`, `border-[color:…]`.
+Never introduce a raw color literal in TSX or CSS. Whole-token values use generated utilities (`text-text-muted`, `bg-hud-panel`, `border-border-subtle`, `bg-tint-gold`); alpha derivations keep the expression without the redundant `color:` type hint: `bg-[color-mix(…)]`, `text-[color-mix(…)]`, `border-[color-mix(…)]`.
 
 ## Typography (`src/lib/typography.ts`)
 

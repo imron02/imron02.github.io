@@ -5,7 +5,7 @@ const pip = cva("block w-2.5 h-1 rounded-full", {
   variants: {
     on: {
       true: "bg-primary shadow-[0_0_8px_color-mix(in_srgb,var(--color-primary)_70%,transparent)]",
-      false: "bg-[color:color-mix(in_srgb,var(--color-text-muted)_25%,transparent)]",
+      false: "bg-[color-mix(in_srgb,var(--color-text-muted)_25%,transparent)]",
     },
   },
   defaultVariants: { on: false },

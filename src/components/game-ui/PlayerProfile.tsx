@@ -16,7 +16,7 @@ export default function PlayerProfile() {
       <div class="flex items-center gap-3.5 pt-4 px-4 pb-3 short-1000:pt-3 short-1000:px-4 short-1000:pb-2 short-900:pt-2.5 short-900:px-3.5 short-900:pb-1.5 short-900:gap-2.5 short-820:pt-2 short-820:px-3 short-820:pb-1.25 short-820:gap-2.5">
         <span class="relative flex-[0_0_60px] w-15 h-15 short-900:flex-[0_0_48px] short-900:w-12 short-900:h-12 short-820:flex-[0_0_40px] short-820:w-10 short-820:h-10">
           <span
-            class="absolute inset-0 border border-[color:color-mix(in_srgb,var(--color-primary)_35%,transparent)] rounded-full"
+            class="absolute inset-0 border border-[color-mix(in_srgb,var(--color-primary)_35%,transparent)] rounded-full"
             aria-hidden="true"
           />
           <img
@@ -26,7 +26,7 @@ export default function PlayerProfile() {
             height={52}
             alt=""
           />
-          <span class="absolute right-0 bottom-0 grid place-items-center w-5.5 h-5.5 rounded-full bg-primary-dark border border-[color:color-mix(in_srgb,var(--color-accent-lilac)_60%,transparent)] font-hud text-[9px] font-bold leading-none text-text-primary short-900:w-4.5 short-900:h-4.5 short-900:text-[8px] short-820:w-4 short-820:h-4 short-820:text-[7px]">
+          <span class="absolute right-0 bottom-0 grid place-items-center w-5.5 h-5.5 rounded-full bg-primary-dark border border-[color-mix(in_srgb,var(--color-accent-lilac)_60%,transparent)] font-hud text-[9px] font-bold leading-none text-text-primary short-900:w-4.5 short-900:h-4.5 short-900:text-[8px] short-820:w-4 short-820:h-4 short-820:text-[7px]">
             {profile.level}
           </span>
         </span>
@@ -40,7 +40,7 @@ export default function PlayerProfile() {
           <p class="m-0 flex items-center gap-2 pt-1 font-hud text-[8.5px] leading-[1.2] tracking-[1.2px] uppercase short-820:pt-0.5">
             <span class="text-accent-lilac">LV. {profile.level}</span>
             <span
-              class="w-px h-2 bg-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)]"
+              class="w-px h-2 bg-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)]"
               aria-hidden="true"
             />
             <span class="text-success">● ONLINE</span>

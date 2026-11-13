@@ -69,7 +69,7 @@ export default function GameMenu() {
       as="nav"
       variant="hud"
       accent="primary"
-      class="flex-none bg-hud-panel-menu border-[color:color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
+      class="flex-none bg-hud-panel-menu border-[color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
       spine={false}
       bodyClass="p-0 gap-0"
       aria-label="Main menu"

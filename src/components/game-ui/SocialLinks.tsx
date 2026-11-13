@@ -16,7 +16,7 @@ export default function SocialLinks() {
         return (
           <li key={social.label}>
             <a
-              class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] bg-hud-panel-quiet text-text-secondary transition-[color,border-color] duration-150 ease-[ease] hover:text-text-primary hover:border-primary"
+              class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] bg-hud-panel-quiet text-text-secondary transition-[color,border-color] duration-150 ease-[ease] hover:text-text-primary hover:border-primary"
               href={social.href}
               aria-label={social.label}
               title={social.label}

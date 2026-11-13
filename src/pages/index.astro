@@ -21,14 +21,14 @@ import WorldScene from "../components/world/WorldScene.astro";
   <LoadingScreen client:load />
 
   <div class="absolute inset-0 z-10 grid grid-cols-[minmax(0,min(344px,27vw))_minmax(0,1fr)_minmax(0,min(488px,34vw))] grid-rows-[auto_minmax(0,1fr)_auto] gap-x-[clamp(12px,1.46vw,28px)] gap-y-[clamp(8px,1.3vh,14px)] px-[clamp(20px,3.33vw,64px)] pt-[clamp(20px,3.52vh,38px)] pb-[clamp(24px,5vh,54px)] short-820:pt-5 short-820:pb-5.5 pointer-events-none [&_astro-island]:contents mobile:grid-cols-1 mobile:grid-rows-[auto_auto_auto_minmax(0,1fr)_auto_auto] mobile:gap-x-0 mobile:gap-y-0 mobile:h-full mobile:overflow-hidden mobile:px-6 mobile:pt-[max(20px,env(safe-area-inset-top))] mobile:pb-0 xs:px-4">
-    <div data-slot="rail" class="min-w-0 pointer-events-auto col-start-1 row-start-1 row-span-2 self-stretch flex flex-col gap-3.5 min-h-0 mt-[clamp(8px,1.67vh,18px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 short-1000:gap-2.5 short-900:gap-2 short-820:gap-1.5 short-820:mt-1.5 mobile:hidden">
+    <div data-slot="rail" class="min-w-0 pointer-events-auto col-start-1 row-start-1 row-span-2 self-stretch flex flex-col gap-3.5 min-h-0 mt-[clamp(8px,1.67vh,18px)] overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0 short-1000:gap-2.5 short-900:gap-2 short-820:gap-1.5 short-820:mt-1.5 mobile:hidden">
       <PlayerProfile />
       <GameMenu client:load />
       <CurrentChapter />
       <PlayerStatus client:load />
     </div>
     <div data-slot="system" class="min-w-0 pointer-events-auto col-start-3 row-start-1 justify-self-end self-start mobile:col-start-1 mobile:row-start-1 mobile:block mobile:justify-self-stretch mobile:self-start mobile:mt-6"><SystemBar /></div>
-    <div data-slot="welcome" class="min-w-0 pointer-events-auto col-start-3 row-start-2 self-center justify-self-end w-full min-h-0 [transform:translateY(clamp(0px,0.83vh,9px))] mobile:col-start-1 mobile:row-start-4 mobile:self-stretch mobile:justify-self-stretch mobile:w-full mobile:transform-none mobile:flex mobile:flex-col mobile:justify-end mobile:pb-6.25 mobile:overflow-y-auto mobile:[scrollbar-width:none] mobile:[&::-webkit-scrollbar]:hidden">
+    <div data-slot="welcome" class="min-w-0 pointer-events-auto col-start-3 row-start-2 self-center justify-self-end w-full min-h-0 transform-[translateY(clamp(0px,0.83vh,9px))] mobile:col-start-1 mobile:row-start-4 mobile:self-stretch mobile:justify-self-stretch mobile:w-full mobile:transform-none mobile:flex mobile:flex-col mobile:justify-end mobile:pb-6.25 mobile:overflow-y-auto mobile:scrollbar-none mobile:[&::-webkit-scrollbar]:hidden">
       <WelcomePanel client:load />
       <SectionOverlay client:load />
     </div>
@@ -41,10 +41,10 @@ import WorldScene from "../components/world/WorldScene.astro";
     <div data-slot="tabs" class="min-w-0 pointer-events-auto col-start-1 hidden mobile:row-start-6 mobile:block mobile:-mx-6 xs:-mx-4"><TabBar client:load /></div>
   </div>
 
-  <div class="absolute inset-7 z-[11] pointer-events-none mobile:inset-2.5" aria-hidden="true">
-    <span class="absolute w-6 h-6 border-[color:color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 top-0 left-0 border-t border-l"></span>
-    <span class="absolute w-6 h-6 border-[color:color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 top-0 right-0 border-t border-r"></span>
-    <span class="absolute w-6 h-6 border-[color:color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 bottom-0 left-0 border-b border-l"></span>
-    <span class="absolute w-6 h-6 border-[color:color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 right-0 bottom-0 border-b border-r"></span>
+  <div class="absolute inset-7 z-11 pointer-events-none mobile:inset-2.5" aria-hidden="true">
+    <span class="absolute w-6 h-6 border-[color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 top-0 left-0 border-t border-l"></span>
+    <span class="absolute w-6 h-6 border-[color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 top-0 right-0 border-t border-r"></span>
+    <span class="absolute w-6 h-6 border-[color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 bottom-0 left-0 border-b border-l"></span>
+    <span class="absolute w-6 h-6 border-[color-mix(in_srgb,var(--color-primary)_40%,transparent)] mobile:w-4 mobile:h-4 right-0 bottom-0 border-b border-r"></span>
   </div>
 </MainLayout>

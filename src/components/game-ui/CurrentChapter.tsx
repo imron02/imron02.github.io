@@ -10,7 +10,7 @@ export default function CurrentChapter() {
   return (
     <Panel
       variant="hud"
-      class="flex-none bg-hud-panel-soft border-[color:color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
+      class="flex-none bg-hud-panel-soft border-[color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
       spine={false}
       bodyClass="gap-2 px-4 py-3.25 short-1000:gap-1.5 short-1000:py-2.5 short-900:gap-1 short-900:px-3.5 short-900:py-2 short-820:gap-0.75 short-820:px-3 short-820:py-1.5"
       aria-label="Current chapter"

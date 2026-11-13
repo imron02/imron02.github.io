@@ -8,8 +8,8 @@ const item = cva(
     variants: {
       active: {
         false:
-          "border-t-[color:color-mix(in_srgb,var(--color-text-primary)_10%,transparent)] text-text-secondary hover:bg-[color:color-mix(in_srgb,var(--color-text-primary)_3%,transparent)] hover:text-text-primary",
-        true: "border-t-[color:color-mix(in_srgb,var(--color-primary)_35%,transparent)] bg-[color:color-mix(in_srgb,var(--color-primary)_18%,transparent)] text-text-primary shadow-[0_0_26px_color-mix(in_srgb,var(--color-primary)_30%,transparent)] hover:bg-[color:color-mix(in_srgb,var(--color-primary)_18%,transparent)] hover:text-text-primary",
+          "border-t-[color-mix(in_srgb,var(--color-text-primary)_10%,transparent)] text-text-secondary hover:bg-[color-mix(in_srgb,var(--color-text-primary)_3%,transparent)] hover:text-text-primary",
+        true: "border-t-[color-mix(in_srgb,var(--color-primary)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-primary)_18%,transparent)] text-text-primary shadow-[0_0_26px_color-mix(in_srgb,var(--color-primary)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-primary)_18%,transparent)] hover:text-text-primary",
       },
     },
     defaultVariants: { active: false },

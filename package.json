@@ -12,8 +12,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "lint": "biome lint --error-on-warnings .",
+    "lint": "biome lint --error-on-warnings . && node scripts/tailwind-canonical.mjs",
     "lint:fix": "biome lint --write .",
+    "fix:tailwind": "node scripts/tailwind-canonical.mjs --write",
     "format": "biome format --write .",
     "format:check": "biome format ."
   },

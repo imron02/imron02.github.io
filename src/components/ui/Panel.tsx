@@ -5,7 +5,7 @@ import { cn } from "../../lib/cn";
 const panel = cva("relative flex min-w-0 text-left", {
   variants: {
     variant: {
-      hud: "bg-hud-panel border border-[color:color-mix(in_srgb,var(--color-primary)_30%,transparent)] rounded-xs shadow-[0_18px_44px_var(--color-shadow-panel)] overflow-hidden",
+      hud: "bg-hud-panel border border-[color-mix(in_srgb,var(--color-primary)_30%,transparent)] rounded-xs shadow-[0_18px_44px_var(--color-shadow-panel)] overflow-hidden",
       glass:
         "bg-tint-glass border border-tint-glass-border rounded-m overflow-hidden backdrop-blur-[18px]",
       floating:

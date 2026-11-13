@@ -7,8 +7,9 @@
 ```sh
 pnpm install
 pnpm dev          # astro dev, http://localhost:4321, HMR
-pnpm lint         # biome lint — recommended rules; warnings fail
+pnpm lint         # biome lint --error-on-warnings + canonical Tailwind class check
 pnpm lint:fix     # biome lint --write — safe fixes only
+pnpm fix:tailwind # rewrite Tailwind classes to canonical form (CLI twin of IntelliSense)
 pnpm format       # biome format --write
 pnpm format:check # biome format — check only
 pnpm check        # astro check — type + template diagnostics
@@ -16,7 +17,7 @@ pnpm build        # astro build → dist/
 pnpm preview      # serve the built dist/
 ```
 
-Biome owns lint + format. `biome.json` includes `src/**/*` and `astro.config.mjs`; `dist/`, `.astro/`, `public/`, `design/`, `.agents/`, `.omp/` stay outside. Astro uses Biome's partial support (frontmatter/scripts only), so `useConst`, `useImportType`, `noUnusedVariables`, and `noUnusedImports` are off for `**/*.astro`. Formatter: 2-space indent, double quotes, semicolons, 100 columns, Tailwind v4 directives enabled. No test runner. Verification gate: `pnpm lint` + `pnpm format:check` + `pnpm check` + `pnpm build`. Tailwind classes are linted too: `tailwind.stylesheet` points at `src/styles/global.css`, `linter.domains.tailwind` plus `nursery/noTailwindArbitraryValue` are on, and `allowedCategories` (layout, color, typography, effects, motion) plus 14 `allowedClasses` entries cover the arbitrary values that have no exact canonical class.
+Biome owns lint + format. `biome.json` includes `src/**/*` and `astro.config.mjs`; `dist/`, `.astro/`, `public/`, `design/`, `.agents/`, `.omp/` stay outside. Astro uses Biome's partial support (frontmatter/scripts only), so `useConst`, `useImportType`, `noUnusedVariables`, and `noUnusedImports` are off for `**/*.astro`. Formatter: 2-space indent, double quotes, semicolons, 100 columns, Tailwind v4 directives enabled. No test runner. Verification gate: `pnpm lint` + `pnpm format:check` + `pnpm check` + `pnpm build`. Tailwind classes are linted too: `tailwind.stylesheet` points at `src/styles/global.css`, `linter.domains.tailwind` plus `nursery/noTailwindArbitraryValue` are on, and `allowedCategories` (layout, color, typography, effects, motion) plus 14 `allowedClasses` entries cover the arbitrary values that have no exact canonical class. Canonical Tailwind classes are enforced by `scripts/tailwind-canonical.mjs`, which calls the same `canonicalizeCandidates` API as Tailwind IntelliSense; `pnpm fix:tailwind` rewrites findings.
 
 **No** conventional `pnpm test`; "tests pass" meaningless here. Say what you actually ran.
 

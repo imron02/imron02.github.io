@@ -19,7 +19,7 @@ export default function PlayerStatus() {
   return (
     <Panel
       variant="hud"
-      class="flex-none bg-hud-panel-soft border-[color:color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
+      class="flex-none bg-hud-panel-soft border-[color-mix(in_srgb,var(--color-text-primary)_10%,transparent)]"
       spine={false}
       bodyClass="p-0 gap-0"
       aria-label="Player status"
@@ -36,7 +36,7 @@ export default function PlayerStatus() {
         {rows.map((row) => (
           <div
             key={row.term}
-            class="flex items-center justify-between gap-3 h-8 px-4 border-t border-[color:color-mix(in_srgb,var(--color-text-primary)_8%,transparent)] font-hud text-[8.5px] leading-[1.2] uppercase short-1000:h-7 short-900:h-6.25 short-820:h-5.5"
+            class="flex items-center justify-between gap-3 h-8 px-4 border-t border-[color-mix(in_srgb,var(--color-text-primary)_8%,transparent)] font-hud text-[8.5px] leading-[1.2] uppercase short-1000:h-7 short-900:h-6.25 short-820:h-5.5"
           >
             <dt class="tracking-[1.2px] text-text-faint">{row.term}</dt>
             <dd class="m-0 tracking-[1px] text-text-primary text-right">{row.value}</dd>

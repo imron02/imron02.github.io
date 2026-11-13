@@ -7,7 +7,7 @@ import { $section, gameActions } from "../../state/game";
 
 // Shared prefix of the four corner brackets around the CTA.
 const cornerBracket =
-  "absolute w-3.25 h-3.25 border-[color:color-mix(in_srgb,var(--color-accent-orchid)_70%,transparent)] pointer-events-none";
+  "absolute w-3.25 h-3.25 border-[color-mix(in_srgb,var(--color-accent-orchid)_70%,transparent)] pointer-events-none";
 
 export default function WelcomePanel() {
   const section = useStore($section);
@@ -56,7 +56,7 @@ export default function WelcomePanel() {
       <div class="relative w-full h-32.5 short-1000:h-29.5 short-900:h-27 short-820:h-24 mobile:h-17.25">
         <button
           type="button"
-          class="absolute left-3 top-5 flex items-center justify-center gap-3.5 w-[min(368px,calc(100%_-_24px))] h-19.5 py-0 px-7.5 border border-cta-stroke rounded-cta bg-[linear-gradient(90deg,var(--color-cta-start)_0%,var(--color-cta-mid)_32%,var(--color-cta-deep)_68%,var(--color-cta-end)_100%)] text-text-primary font-hud text-[17px] font-bold tracking-[2.8px] uppercase cursor-pointer overflow-hidden shadow-[0_8px_26px_color-mix(in_srgb,var(--color-primary)_20%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-text-primary)_24%,transparent)] hover:brightness-[1.08] short-1000:h-17 short-900:h-15.5 short-900:top-4 short-820:h-14 short-820:top-3 mobile:left-0 mobile:top-2.25 mobile:w-full mobile:h-13 mobile:gap-2.5 mobile:py-0 mobile:px-6 mobile:text-[13px] mobile:tracking-[2.6px]"
+          class="absolute left-3 top-5 flex items-center justify-center gap-3.5 w-[min(368px,calc(100%-24px))] h-19.5 py-0 px-7.5 border border-cta-stroke rounded-cta bg-[linear-gradient(90deg,var(--color-cta-start)_0%,var(--color-cta-mid)_32%,var(--color-cta-deep)_68%,var(--color-cta-end)_100%)] text-text-primary font-hud text-[17px] font-bold tracking-[2.8px] uppercase cursor-pointer overflow-hidden shadow-[0_8px_26px_color-mix(in_srgb,var(--color-primary)_20%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-text-primary)_24%,transparent)] hover:brightness-[1.08] short-1000:h-17 short-900:h-15.5 short-900:top-4 short-820:h-14 short-820:top-3 mobile:left-0 mobile:top-2.25 mobile:w-full mobile:h-13 mobile:gap-2.5 mobile:py-0 mobile:px-6 mobile:text-[13px] mobile:tracking-[2.6px]"
           onClick={() => gameActions.goTo("about")}
         >
           <span
@@ -64,11 +64,11 @@ export default function WelcomePanel() {
             aria-hidden="true"
           />
           <span
-            class="absolute left-0 top-0 w-0.75 h-full bg-[color:color-mix(in_srgb,var(--color-text-primary)_55%,transparent)] mobile:w-0.5"
+            class="absolute left-0 top-0 w-0.75 h-full bg-[color-mix(in_srgb,var(--color-text-primary)_55%,transparent)] mobile:w-0.5"
             aria-hidden="true"
           />
           <span
-            class="absolute inset-1.25 border border-[color:color-mix(in_srgb,var(--color-text-primary)_18%,transparent)] rounded-[1px] mobile:inset-1"
+            class="absolute inset-1.25 border border-[color-mix(in_srgb,var(--color-text-primary)_18%,transparent)] rounded-[1px] mobile:inset-1"
             aria-hidden="true"
           />
           <Play
@@ -80,9 +80,9 @@ export default function WelcomePanel() {
           <span class="relative leading-none">START PLAY</span>
           <span class="relative w-1.5 h-px mobile:w-1" aria-hidden="true" />
           <span class="relative inline-flex items-center gap-2 mobile:gap-1.25" aria-hidden="true">
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary [transform:rotate(45deg)] opacity-90 mobile:w-1.25 mobile:h-1.25" />
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary [transform:rotate(45deg)] opacity-50 mobile:w-1.25 mobile:h-1.25" />
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary [transform:rotate(45deg)] opacity-22 mobile:w-1.25 mobile:h-1.25" />
+            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-90 mobile:w-1.25 mobile:h-1.25" />
+            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-50 mobile:w-1.25 mobile:h-1.25" />
+            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-22 mobile:w-1.25 mobile:h-1.25" />
           </span>
         </button>
         <span
@@ -115,7 +115,7 @@ export default function WelcomePanel() {
         />
       </div>
       <p class="flex items-center gap-2.5 m-0 font-hud text-[8.5px] leading-[1.2] tracking-[1.6px] uppercase text-text-faint mobile:gap-1.75 mobile:text-[7.5px] mobile:tracking-[1.5px] mobile:text-text-ghost">
-        <span class="py-1.25 px-2.25 border border-[color:color-mix(in_srgb,var(--color-text-primary)_20%,transparent)] rounded-[1px] bg-[color:color-mix(in_srgb,var(--color-text-primary)_6%,transparent)] text-[8px] tracking-[1.2px] text-text-secondary mobile:hidden">
+        <span class="py-1.25 px-2.25 border border-[color-mix(in_srgb,var(--color-text-primary)_20%,transparent)] rounded-[1px] bg-[color-mix(in_srgb,var(--color-text-primary)_6%,transparent)] text-[8px] tracking-[1.2px] text-text-secondary mobile:hidden">
           ENTER
         </span>
         <span class="mobile:hidden">PRESS TO BEGIN THE JOURNEY</span>

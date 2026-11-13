@@ -12,8 +12,8 @@ const card = cva(
     variants: {
       active: {
         false:
-          "border border-[color:color-mix(in_srgb,var(--color-text-primary)_12%,transparent)] hover:border-[color:color-mix(in_srgb,var(--color-primary)_50%,transparent)]",
-        true: "border border-primary-hover shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary)_35%,transparent)] hover:border-primary-hover mobile:border-[color:color-mix(in_srgb,var(--color-primary)_35%,transparent)]",
+          "border border-[color-mix(in_srgb,var(--color-text-primary)_12%,transparent)] hover:border-[color-mix(in_srgb,var(--color-primary)_50%,transparent)]",
+        true: "border border-primary-hover shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary)_35%,transparent)] hover:border-primary-hover mobile:border-[color-mix(in_srgb,var(--color-primary)_35%,transparent)]",
       },
     },
     defaultVariants: { active: false },
@@ -48,12 +48,12 @@ export default function QuestBoard() {
           <p class="m-0 font-hud text-[10.5px] leading-[1.2] tracking-[2.4px] uppercase text-text-primary mobile:text-[9.5px] mobile:tracking-[1.5px]">
             Quest Board
           </p>
-          <span class="px-1.5 py-0.5 rounded-[1px] bg-[color:color-mix(in_srgb,var(--color-primary)_20%,transparent)] font-hud text-[8px] leading-[1.2] tracking-[1px] text-accent-lilac mobile:px-1.25 mobile:text-[7px]">
+          <span class="px-1.5 py-0.5 rounded-[1px] bg-[color-mix(in_srgb,var(--color-primary)_20%,transparent)] font-hud text-[8px] leading-[1.2] tracking-[1px] text-accent-lilac mobile:px-1.25 mobile:text-[7px]">
             {String(featuredProjects.length).padStart(2, "0")}
           </span>
         </div>
       </div>
-      <ul class="list-none m-0 p-0 grid grid-cols-[repeat(3,minmax(0,1fr))] gap-3 mobile:gap-2">
+      <ul class="list-none m-0 p-0 grid grid-cols-3 gap-3 mobile:gap-2">
         {featuredProjects.map((project, index) => {
           const isActive = index === 0;
           return (
@@ -86,14 +86,14 @@ export default function QuestBoard() {
                     aria-hidden="true"
                   />
                   <span
-                    class="absolute left-56 top-4.5 grid place-items-center w-6 h-6 text-[color:color-mix(in_srgb,var(--color-text-primary)_70%,transparent)] opacity-85 mobile:hidden"
+                    class="absolute left-56 top-4.5 grid place-items-center w-6 h-6 text-[color-mix(in_srgb,var(--color-text-primary)_70%,transparent)] opacity-85 mobile:hidden"
                     aria-hidden="true"
                   >
                     {glyphs[project.id] ?? glyphs[project.category] ?? fallbackGlyph}
                   </span>
                   <span
                     class={cn(
-                      "absolute left-2 top-2 px-1.5 py-0.75 rounded-[1px] border border-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] bg-[color:color-mix(in_srgb,var(--color-void)_60%,transparent)] font-hud text-[8px] leading-[1.2] tracking-[1px]",
+                      "absolute left-2 top-2 px-1.5 py-0.75 rounded-[1px] border border-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-void)_60%,transparent)] font-hud text-[8px] leading-[1.2] tracking-[1px]",
                       isActive ? "text-accent-lilac" : "text-text-secondary",
                       "mobile:hidden",
                     )}

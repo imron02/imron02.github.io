@@ -8,15 +8,15 @@ export default function SystemBar() {
       aria-hidden="true"
     >
       <span class="text-success mobile:tracking-[0.8px]">● ONLINE</span>
-      <span class="w-px h-3.25 bg-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] mobile:h-2.25" />
+      <span class="w-px h-3.25 bg-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] mobile:h-2.25" />
       <span class="tracking-[1.2px] text-text-faint mobile:tracking-[0.9px]">
         SESSION {String(profile.session.index).padStart(2, "0")} — {profile.session.name}
       </span>
       <span class="flex gap-4 mobile:ml-auto mobile:gap-3">
-        <span class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] text-text-secondary mobile:w-auto mobile:h-auto mobile:border-0 mobile:rounded-none mobile:text-text-faint mobile:[&_svg]:w-3 mobile:[&_svg]:h-3">
+        <span class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] text-text-secondary mobile:w-auto mobile:h-auto mobile:border-0 mobile:rounded-none mobile:text-text-faint mobile:[&_svg]:w-3 mobile:[&_svg]:h-3">
           <Volume2 size={13} strokeWidth={1.5} />
         </span>
-        <span class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color:color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] text-text-secondary mobile:w-auto mobile:h-auto mobile:border-0 mobile:rounded-none mobile:text-text-faint mobile:[&_svg]:w-3 mobile:[&_svg]:h-3">
+        <span class="grid place-items-center w-7.5 h-7.5 rounded-xs border border-[color-mix(in_srgb,var(--color-text-primary)_15%,transparent)] text-text-secondary mobile:w-auto mobile:h-auto mobile:border-0 mobile:rounded-none mobile:text-text-faint mobile:[&_svg]:w-3 mobile:[&_svg]:h-3">
           <Maximize size={13} strokeWidth={1.5} />
         </span>
       </span>

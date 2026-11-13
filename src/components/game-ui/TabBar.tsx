@@ -18,7 +18,7 @@ const tabItem = cva(
 const tabIcon = cva("grid place-items-center w-6.5 h-5 rounded-xs text-inherit", {
   variants: {
     active: {
-      true: "bg-[color:color-mix(in_srgb,var(--color-primary)_18%,transparent)] text-accent-lilac",
+      true: "bg-[color-mix(in_srgb,var(--color-primary)_18%,transparent)] text-accent-lilac",
     },
   },
 });
@@ -50,7 +50,7 @@ export default function TabBar() {
         })}
       </ul>
       <span
-        class="block w-33.5 h-1 mx-auto my-1.5 rounded-xs bg-[color:color-mix(in_srgb,var(--color-text-primary)_60%,transparent)]"
+        class="block w-33.5 h-1 mx-auto my-1.5 rounded-xs bg-[color-mix(in_srgb,var(--color-text-primary)_60%,transparent)]"
         aria-hidden="true"
       />
     </nav>
