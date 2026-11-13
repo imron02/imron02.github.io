@@ -73,6 +73,20 @@ Project skills in `.agents/skills/` (managed by `skills-lock.json`; do not edit 
 
 Load skill **only** when trigger matches. Do not preload for token savings.
 
+## OpenCode subagents
+
+Defined in `.opencode/agents/*.md`, project config in `opencode.jsonc`. All subagents inherit the session model.
+
+| Agent | Use for |
+|---|---|
+| `repo-explorer` | Mapping the smallest set of files and docs before a task — read-only |
+| `site-verifier` | Running the verification gate in a child session so build output stays out of the main context |
+| `ui-reviewer` | Reviewing the working-tree diff against the rules above before merge |
+
+Commands: `/map <task>`, `/verify`, `/ui-review` — each runs its agent as a background child session.
+
+Use subagents for research, verification, and review. Keep file edits in the primary agent so two sessions never write the same file.
+
 ## Non-negotiable rules
 
 1. **Site content lives in `src/data/*`.** Bios, projects, skills, experience, social links come from `profile.ts`, `projects.ts`, `skills.ts`, `experience.ts`. Fixed UI chrome ("// MAIN MENU", "Start Play", "Back to quest log") inline by design. Page `<title>`/description defaults in `MainLayout.astro` props.
