@@ -15,7 +15,7 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
       │  ├─ system           SystemBar            right top, decorative, static
       │  ├─ welcome          WelcomePanel + SectionOverlay   right, one visible at a time
       │  ├─ quests           QuestBoard            left bottom, overflows the rail column
-      │  ├─ corner           Companion (static) + SocialLinks (static)  right bottom
+      │  ├─ corner           Companion (island) + SocialLinks (static)  right bottom
       │  ├─ chips            PlayerChips           mobile only
       │  └─ tabs             TabBar                mobile only
       └─ corner brackets     decorative frame brackets div, aria-hidden
@@ -27,7 +27,7 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
 
 Astro wraps every hydrated component in an `<astro-island>` element. `[&_astro-island]:contents` on the HUD grid root lets rendered panels join the slot's flex/grid layout directly. Without it, siblings stack at zero height and overlap. Do not remove it, and do not assume an island's own tag is a layout box.
 
-Only components reading a store or attaching a handler get `client:load` — eight now: `LoadingScreen`, `GameMenu`, `PlayerStatus`, `WelcomePanel`, `SectionOverlay`, `QuestBoard`, `PlayerChips`, `TabBar`. `PlayerProfile`, `CurrentChapter`, `SystemBar`, `Companion` and `SocialLinks` stay static imports: plain HTML, no `<astro-island>` wrapper, smaller JS payload. Add a hook or handler to one → add `client:load` back in `index.astro`.
+Only components reading a store or attaching a handler get `client:load` — nine now: `LoadingScreen`, `GameMenu`, `PlayerStatus`, `WelcomePanel`, `SectionOverlay`, `QuestBoard`, `PlayerChips`, `TabBar`, `Companion`. `PlayerProfile`, `CurrentChapter`, `SystemBar` and `SocialLinks` stay static imports: plain HTML, no `<astro-island>` wrapper, smaller JS payload. Add a hook or handler to one → add `client:load` back in `index.astro`.
 
 ## Layers
 

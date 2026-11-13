@@ -4,10 +4,12 @@ import { cva } from "class-variance-authority";
 import { projects } from "../../data/projects";
 import { gameActions } from "../../state/game";
 import { cn } from "../../lib/cn";
+import { hoverStart, hoverStop } from "../../lib/hoverMotion";
 import Panel from "../ui/Panel";
+import { useRevealed } from "./useRevealed";
 
 const card = cva(
-  "relative w-full flex flex-col p-0 rounded-xs bg-hud-card text-text-primary text-left overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-200 ease-[ease] h-26 short-1000:h-24 short-900:h-22 short-820:h-20 mobile:h-15 mobile:shadow-none",
+  "group relative w-full flex flex-col p-0 rounded-xs bg-hud-card text-text-primary text-left overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-200 ease-[ease] hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary)_35%,transparent)] h-26 short-1000:h-24 short-900:h-22 short-820:h-20 mobile:h-15 mobile:shadow-none",
   {
     variants: {
       active: {
@@ -19,6 +21,10 @@ const card = cva(
     defaultVariants: { active: false },
   },
 );
+
+const hoverEnter = { y: -4, scale: 1.02 };
+
+const hoverRest = { y: 0, scale: 1 };
 
 // Project-id overrides win over the category fallback.
 // "Creative" is absent: the fallback already renders the same Sparkles.
@@ -33,6 +39,8 @@ const fallbackGlyph = <Sparkles size={24} strokeWidth={1.5} />;
 const featuredProjects = projects.filter((project) => project.featured).slice(0, 3);
 
 export default function QuestBoard() {
+  const revealed = useRevealed();
+
   return (
     <Panel
       variant="hud"
@@ -57,15 +65,21 @@ export default function QuestBoard() {
         {featuredProjects.map((project, index) => {
           const isActive = index === 0;
           return (
-            <li key={project.id}>
+            <li
+              key={project.id}
+              class={cn(revealed && "motion-safe:animate-reveal-up")}
+              style={{ animationDelay: `${index * 70}ms` }}
+            >
               <button
                 type="button"
                 class={card({ active: isActive })}
                 onClick={() => gameActions.selectProject(project.id)}
+                onPointerEnter={(event) => hoverStart(event.currentTarget, hoverEnter)}
+                onPointerLeave={(event) => hoverStop(event.currentTarget, hoverRest)}
               >
                 <span class="relative block h-15 overflow-hidden short-1000:h-13 short-900:h-11 short-820:h-9.5 mobile:h-8">
                   <img
-                    class="block w-full h-full object-cover"
+                    class="block w-full h-full object-cover transition-transform duration-500 ease-[ease] motion-safe:group-hover:scale-105"
                     src={`${import.meta.env.BASE_URL}${project.thumbnail}`}
                     alt=""
                     width={640}
@@ -100,6 +114,12 @@ export default function QuestBoard() {
                   >
                     {project.id.slice(0, 1).toUpperCase()}-{project.id.slice(1)}
                   </span>
+                  {isActive && (
+                    <span
+                      class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--color-text-primary)_22%,transparent),transparent)] motion-safe:animate-sheen-sweep motion-reduce:hidden"
+                      aria-hidden="true"
+                    />
+                  )}
                 </span>
                 <span class="grid gap-0.75 pt-2 px-2.5 pb-2.25 short-900:py-1.5 short-900:px-2.25 short-820:py-1.25 short-820:px-2 mobile:gap-px mobile:py-1 mobile:px-1.75">
                   <span
@@ -119,6 +139,12 @@ export default function QuestBoard() {
                   class="hidden absolute left-0 bottom-0 w-0.5 h-7 bg-primary-hover mobile:block"
                   aria-hidden="true"
                 />
+                {isActive && (
+                  <span
+                    class="pointer-events-none absolute inset-0 rounded-xs shadow-[inset_0_0_24px_color-mix(in_srgb,var(--color-primary)_35%,transparent)] motion-safe:animate-glow-pulse motion-reduce:hidden"
+                    aria-hidden="true"
+                  />
+                )}
               </button>
             </li>
           );

@@ -11,6 +11,7 @@ import {
 import type { ComponentChildren } from "preact";
 import { $section, gameActions } from "../../state/game";
 import type { GameSection } from "../../state/game";
+import { useRevealed } from "./useRevealed";
 import NavItem from "../ui/NavItem";
 import Panel from "../ui/Panel";
 import { useStore } from "@nanostores/preact";
@@ -63,6 +64,7 @@ export const menuItems: {
 
 export default function GameMenu() {
   const section = useStore($section);
+  const revealed = useRevealed();
 
   return (
     <Panel
@@ -84,7 +86,11 @@ export default function GameMenu() {
       </div>
       <ul class="list-none m-0 p-0">
         {menuItems.map((item, index) => (
-          <li key={item.id}>
+          <li
+            key={item.id}
+            class={cn(revealed && "motion-safe:animate-reveal-right")}
+            style={{ animationDelay: `${index * 55}ms` }}
+          >
             <NavItem
               index={String(index + 1).padStart(2, "0")}
               label={item.label.toUpperCase()}

@@ -34,7 +34,7 @@ import WorldScene from "../components/world/WorldScene.astro";
     </div>
     <div data-slot="quests" class="min-w-0 pointer-events-auto col-start-1 row-start-3 self-end justify-self-start w-[min(812px,62vw)] mobile:col-start-1 mobile:row-start-5 mobile:w-auto mobile:-mx-6 mobile:mb-3 mobile:justify-self-stretch mobile:self-stretch xs:-mx-4"><QuestBoard client:load /></div>
     <div data-slot="corner" class="min-w-0 pointer-events-auto col-start-3 row-start-3 self-end justify-self-end flex flex-col items-end gap-[clamp(8px,4.8vh,52px)] short-820:gap-1.5 mb-[clamp(4px,0.93vh,10px)] mobile:col-start-1 mobile:row-start-3 mobile:block mobile:justify-self-start mobile:self-start mobile:gap-0 mobile:mt-13 mobile:mb-0">
-      <Companion />
+      <Companion client:load />
       <SocialLinks />
     </div>
     <div data-slot="chips" class="min-w-0 pointer-events-auto col-start-1 hidden mobile:row-start-2 mobile:flex mobile:items-center mobile:min-h-11.5 mobile:mt-2"><PlayerChips client:load /></div>

@@ -3,11 +3,20 @@ import { Play } from "lucide-preact";
 import { useEffect } from "preact/hooks";
 import { profile } from "../../data/profile";
 import { cn } from "../../lib/cn";
+import { hoverStart, hoverStop } from "../../lib/hoverMotion";
 import { $section, gameActions } from "../../state/game";
 
 // Shared prefix of the four corner brackets around the CTA.
 const cornerBracket =
   "absolute w-3.25 h-3.25 border-[color-mix(in_srgb,var(--color-accent-orchid)_70%,transparent)] pointer-events-none";
+
+// Inner chevron glyph; stagger and hover shift are handled by the wrapper.
+const chevron =
+  "w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-[ease] motion-safe:group-hover:transform-[translateX(3px)_rotate(45deg)] mobile:w-1.25 mobile:h-1.25";
+
+const hoverEnter = { scale: 1.03 };
+
+const hoverRest = { scale: 1 };
 
 export default function WelcomePanel() {
   const section = useStore($section);
@@ -56,8 +65,10 @@ export default function WelcomePanel() {
       <div class="relative w-full h-32.5 short-1000:h-29.5 short-900:h-27 short-820:h-24 mobile:h-17.25">
         <button
           type="button"
-          class="absolute left-3 top-5 flex items-center justify-center gap-3.5 w-[min(368px,calc(100%-24px))] h-19.5 py-0 px-7.5 border border-cta-stroke rounded-cta bg-[linear-gradient(90deg,var(--color-cta-start)_0%,var(--color-cta-mid)_32%,var(--color-cta-deep)_68%,var(--color-cta-end)_100%)] text-text-primary font-hud text-[17px] font-bold tracking-[2.8px] uppercase cursor-pointer overflow-hidden shadow-[0_8px_26px_color-mix(in_srgb,var(--color-primary)_20%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-text-primary)_24%,transparent)] hover:brightness-[1.08] short-1000:h-17 short-900:h-15.5 short-900:top-4 short-820:h-14 short-820:top-3 mobile:left-0 mobile:top-2.25 mobile:w-full mobile:h-13 mobile:gap-2.5 mobile:py-0 mobile:px-6 mobile:text-[13px] mobile:tracking-[2.6px]"
+          class="absolute left-3 top-5 flex items-center justify-center gap-3.5 w-[min(368px,calc(100%-24px))] h-19.5 py-0 px-7.5 border border-cta-stroke rounded-cta bg-[linear-gradient(90deg,var(--color-cta-start)_0%,var(--color-cta-mid)_32%,var(--color-cta-deep)_68%,var(--color-cta-end)_100%)] text-text-primary font-hud text-[17px] font-bold tracking-[2.8px] uppercase cursor-pointer overflow-hidden shadow-[0_8px_26px_color-mix(in_srgb,var(--color-primary)_20%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-text-primary)_24%,transparent)] transition-[box-shadow,filter] duration-200 ease-[ease] hover:shadow-[0_10px_34px_color-mix(in_srgb,var(--color-primary)_35%,transparent),inset_0_1px_0_color-mix(in_srgb,var(--color-text-primary)_24%,transparent)] hover:brightness-[1.08] group short-1000:h-17 short-900:h-15.5 short-900:top-4 short-820:h-14 short-820:top-3 mobile:left-0 mobile:top-2.25 mobile:w-full mobile:h-13 mobile:gap-2.5 mobile:py-0 mobile:px-6 mobile:text-[13px] mobile:tracking-[2.6px]"
           onClick={() => gameActions.goTo("about")}
+          onPointerEnter={(event) => hoverStart(event.currentTarget, hoverEnter)}
+          onPointerLeave={(event) => hoverStop(event.currentTarget, hoverRest)}
         >
           <span
             class="absolute left-0 top-0 w-full h-5.5 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-text-primary)_12%,transparent)_0%,transparent_100%)] mobile:h-4"
@@ -80,9 +91,21 @@ export default function WelcomePanel() {
           <span class="relative leading-none">START PLAY</span>
           <span class="relative w-1.5 h-px mobile:w-1" aria-hidden="true" />
           <span class="relative inline-flex items-center gap-2 mobile:gap-1.25" aria-hidden="true">
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-90 mobile:w-1.25 mobile:h-1.25" />
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-50 mobile:w-1.25 mobile:h-1.25" />
-            <span class="w-1.75 h-1.75 border-t-[1.5px] border-r-[1.5px] border-text-primary transform-[rotate(45deg)] opacity-22 mobile:w-1.25 mobile:h-1.25" />
+            <span class="inline-flex motion-safe:animate-chevron-loop">
+              <span class={cn(chevron, "opacity-90")} />
+            </span>
+            <span
+              class="inline-flex motion-safe:animate-chevron-loop"
+              style={{ animationDelay: "160ms" }}
+            >
+              <span class={cn(chevron, "opacity-50 motion-safe:group-hover:delay-75")} />
+            </span>
+            <span
+              class="inline-flex motion-safe:animate-chevron-loop"
+              style={{ animationDelay: "320ms" }}
+            >
+              <span class={cn(chevron, "opacity-22 motion-safe:group-hover:delay-150")} />
+            </span>
           </span>
         </button>
         <span

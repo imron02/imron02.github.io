@@ -16,7 +16,21 @@ const twMerge = extendTailwindMerge({
   },
   extend: {
     theme: {
-      animate: ["panel-float", "petal-float", "petal-float-long", "bar-shimmer", "hint-fade"],
+      animate: [
+        "panel-float",
+        "petal-float",
+        "petal-float-long",
+        "bar-shimmer",
+        "hint-fade",
+        "reveal-right",
+        "reveal-up",
+        "chevron-loop",
+        "bot-bob",
+        "status-ping",
+        "glow-pulse",
+        "sheen-sweep",
+        "caret-blink",
+      ],
     },
   },
 });

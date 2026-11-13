@@ -28,7 +28,7 @@ export interface Profile {
     objectivesTotal: number;
   };
   session: { index: number; name: string };
-  companion: { name: string; role: string; line: string };
+  companion: { name: string; role: string; lines: string[] };
   socials: SocialLink[];
 }
 
@@ -58,11 +58,17 @@ export const profile: Profile = {
     objectivesDone: 3,
     objectivesTotal: 5,
   },
-  session: { index: 1, name: "KAGURA SHRINE" },
+  session: { index: 1, name: "HOME" },
   companion: {
     name: "RIN",
     role: "SUPPORT UNIT",
-    line: "Let's create something amazing together!",
+    lines: [
+      "Let's create something amazing together!",
+      "Systems nominal. Ready to go.",
+      "Your next quest is waiting.",
+      "Press Enter to begin the journey.",
+      "Coffee reserves at 82%. All good.",
+    ],
   },
   socials: [
     { label: "GitHub", href: "https://github.com/imron02" },

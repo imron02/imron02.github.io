@@ -26,7 +26,7 @@ interface Profile {
   bio: string; availability: string;
   chapter: { index: number; title: string; objectivesDone: number; objectivesTotal: number };
   session: { index: number; name: string };
-  companion: { name: string; role: string; line: string };
+  companion: { name: string; role: string; lines: string[] };
   socials: SocialLink[];                 // SocialLink = { label, href }
 }
 ```
@@ -34,7 +34,7 @@ interface Profile {
 - `level` is RPG badge number; `rank` is letter grade (`A`) beside it.
 - `xp` is source of truth for XP bar. `xpPercent` and `xpRemaining` are derived exports in same module — never store percentage.
 - `chapter` drives `CurrentChapter`, mobile chapter chip and its bar; `chapterPercent` derived from objective counts.
-- `session` feeds desktop system bar; `companion` feeds RIN dialogue box.
+- `session` feeds desktop system bar; `companion.lines` rotates through the RIN dialogue box (first line doubles as the SSR and reduced-motion fallback).
 - `location` is long form (`Jakarta, Indonesia`), `locationShort` HUD chip form (`Jakarta, ID`). `utcOffsetLabel` is display string; `timeZone` is real IANA zone used by `Intl.DateTimeFormat` for live clock.
 - `avatar` is path **relative to `public/`**, no leading slash (`images/avatar.webp`). Components prepend `BASE_URL`.
 - `ContactPanel` splits `socials`: entries whose `href` starts with `mailto:` filtered out of external list. Email rendered separately from `profile.email` — keep `email` authoritative, do not rely on `mailto:` social for email button. `SocialLinks` renders all three as icon links.
