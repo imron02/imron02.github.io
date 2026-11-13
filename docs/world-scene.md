@@ -28,13 +28,13 @@ Mobile reorders via `z-index`: two fades sit directly on background, then ambien
 | Output | Source | Notes |
 |---|---|---|
 | `world-bg.webp` | `generated-3.png` | 1376×768, cover crop |
-| `character.webp` | `generated.webp` | cropped to alpha bbox `(430,16)-(897,756)`; design's `cover` + scale-3.027 transform pre-applied by crop |
-| `character-mobile.webp` | `char-cutout-fade.png` | cropped to `(431,22)-(894,514)` |
+| `character.webp` | `generated.webp` | cropped to alpha bbox `(430,16)-(897,756)`, then upscaled 2× → 934×1480 (2× DPR: DPR2/3 screens never upscale the bitmap); design's `cover` + scale-3.027 transform pre-applied by crop |
+| `character-mobile.webp` | `char-cutout-fade.png` | cropped to `(431,22)-(894,514)`, then upscaled 2× → 926×984 (2× DPR) |
 | `avatar.webp` | `generated-2.png` | 320×320 face crop |
 | `quest-01…03.webp` | `generated-4/5/6.png` | 640×272, q80 |
 | `quest-04.webp` | `stock-quest-05-ai-experiments.jpg` | 640×272, q80 |
 
-Regenerate with Pillow (WebP alpha survives; verify `mode == "RGBA"` for character files). Never ship PNG sources.
+Regenerate with Pillow (WebP alpha survives; verify `mode == "RGBA"` for character files). Character recipe: premultiplied LANCZOS 2× (resize on `r·a, g·a, b·a` channels, then unpremultiply — plain RGBA resize bleeds transparent colour into hair edges), RGB-only `UnsharpMask(radius=1.4, percent=50, threshold=2)` with alpha untouched (sharpening alpha makes silhouette halos), save WebP `quality=82, method=6, alpha_quality=100` as RGBA. Never ship PNG sources.
 
 ## Motion
 
