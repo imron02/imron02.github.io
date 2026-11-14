@@ -76,6 +76,12 @@ export default function GameMenu() {
       bodyClass="p-0 gap-0"
       aria-label="Main menu"
     >
+      {revealed ? (
+        <span
+          class="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/3 bg-[linear-gradient(180deg,transparent_0%,color-mix(in_srgb,var(--color-primary-hover)_16%,transparent)_50%,transparent_100%)] motion-safe:animate-menu-scan motion-reduce:hidden"
+          aria-hidden="true"
+        />
+      ) : null}
       <div class="flex items-center justify-between gap-2 h-9 px-4 short-1000:h-7.5 short-900:h-7 short-820:h-6">
         <p class={cn(text({ role: "hud-label" }), "text-[9.5px] tracking-[2px] text-text-faint")}>
           {"// COMMAND"}

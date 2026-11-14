@@ -10,14 +10,19 @@ export interface Profile {
   rank: string;
   xp: { current: number; goal: number };
   avatar: string;
-  location: string;
   locationShort: string;
   timeZone: string;
   utcOffsetLabel: string;
   email: string;
-  class: string;
   yearsOfExperience: string;
-  specialization: string[];
+  specializationLabel: string;
+  country: string;
+  currentFocus: string;
+  alignment: string;
+  preferredStack: string;
+  workMode: string;
+  achievements: number;
+  completion: number;
   tagline: string;
   bio: string;
   availability: string;
@@ -41,14 +46,19 @@ export const profile: Profile = {
   rank: "A",
   xp: { current: 8420, goal: 12000 },
   avatar: "images/avatar.webp",
-  location: "Jakarta, Indonesia",
   locationShort: "Jakarta, ID",
   timeZone: "Asia/Jakarta",
   utcOffsetLabel: "GMT +7",
   email,
-  class: "Frontend Engineer",
   yearsOfExperience: "10+ years",
-  specialization: ["React", "Next.js", "React Native", "TypeScript"],
+  specializationLabel: "Frontend Development",
+  country: "Indonesia",
+  currentFocus: "Web & Mobile Apps",
+  alignment: "Product Craftsman",
+  preferredStack: "React / Next.js",
+  workMode: "Remote-first",
+  achievements: 12,
+  completion: 100,
   tagline: "Crafting beautiful and engaging digital experiences with modern technologies.",
   bio: "Passionate about building modern digital experiences through frontend engineering, creative problem-solving, and continuous learning.",
   availability: "Open to work",

@@ -96,6 +96,18 @@ const panel = cva("relative flex min-w-0 text-left", {
 
 Boolean/optional props use defaults in destructure; `class: className` aliasing; `...rest` spread last (except where explicit prop must win); default export; no React namespace usage.
 
+### About overlay panels
+
+`src/components/game-sections/about/` holds the design-frame panels (`LnfWr` desktop, `lTXor` mobile). `DesignPanel` owns the shared chrome — `Panel variant="hud"` + `bg-hud-panel-strong`, `bodyClass="p-0 gap-0"`, purple→cyan `spineClass`, corner tick, `<h2>` head (icon + title + optional `meta` slot) and a body wrapper whose padding `bodyClass` can override. `interactive` adds a hover lift plus primary glow (CSS only, so touch devices never trigger it); `AboutPanel` staggers the desktop cards in with `motion-safe:animate-reveal-card` per card. New panels compose it instead of rebuilding the frame:
+
+```tsx
+<DesignPanel id="about-profile" title="CHARACTER PROFILE" icon={<Swords size={12} />} meta={<span>REF 001-A</span>}>
+  …body…
+</DesignPanel>
+```
+
+`AboutPanel` is the only layout owner: desktop grid (`profile` column, `attributes` + `equipped tech` column, full-width `adventure log`, two columns only from `xl`) and the mobile stack (`identity card`, `character sheet`, `player status`, attributes, tech, log). Panels never position themselves.
+
 ## Accessibility baseline
 
 - Exactly one `<h1>` on page — `WelcomePanel`'s title. Detail panels use `<h2>`; nested group titles `<h3>`. `SkillsTree` starts at `<h3>` (renders group headings inside overlay). Do not add a heading level purely to satisfy a numbering rule, and never add a second `<h1>`.
@@ -103,7 +115,7 @@ Boolean/optional props use defaults in destructure; `class: className` aliasing;
 - Decorative images use `alt=""`; whole `WorldScene` layer is `aria-hidden`.
 - Loading state is a `role="status"` region with `aria-live="polite"`.
 - Focus: global `:focus-visible` gives 3px `--color-focus-ring` outline; components may narrow to 2px. Never remove the outline.
-- Overlay headings: `tabIndex={-1}` programmatic focus targets, suppress focus ring; opening a section moves focus to its heading, `Escape` returns home and restores focus to `#welcome-title`.
+- Overlay headings: `tabIndex={-1}` programmatic focus targets, suppress focus ring; opening a section moves focus to its heading element (`#section-heading-${section}`), `Escape` returns home and restores focus to `#welcome-title`. The About overlay's focus target is its `PLAYER / PROFILE / 001` id strip (`AboutSectionId`) instead of a heading — it labels the composition and takes the same `tabIndex={-1}` + ring suppression.
 - Interactive targets are real `<button type="button">` or `<a>`. Do not attach `onClick` to `div`s.
 - State communicated visually must also be duplicated semantically — e.g. `aria-current`, `aria-valuenow`, meter's `aria-label`.
 

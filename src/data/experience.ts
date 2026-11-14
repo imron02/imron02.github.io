@@ -1,47 +1,65 @@
 export interface ExperienceItem {
-  period: string;
+  /** Milestone start label, e.g. "2024" or "APR 2026". */
+  start: string;
+  /** Milestone end label, e.g. "2024", "AUG 2026" or "PRESENT". */
+  end: string;
   role: string;
   company: string;
-  summary: string;
   technologies: string[];
-  achievements: string[];
+  active?: boolean;
+  summary?: string;
+  achievements?: string[];
 }
 
 export const experience: ExperienceItem[] = [
   {
-    period: "2022 — Present",
-    role: "Senior Frontend Engineer",
-    company: "Lorem Labs",
-    summary:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus.",
-    technologies: ["Preact", "TypeScript", "Astro"],
-    achievements: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "Vestibulum id ligula porta felis euismod semper.",
-    ],
+    start: "2024",
+    end: "PRESENT",
+    company: "Mindstores / WIR Group",
+    role: "Fullstack Developer",
+    technologies: ["React Native", "Expo", "Frappe", "Python"],
+    active: true,
   },
   {
-    period: "2018 — 2022",
-    role: "Frontend Engineer",
-    company: "Ipsum Studio",
-    summary:
-      "Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    achievements: [
-      "Maecenas faucibus mollis interdum.",
-      "Donec ullamcorper nulla non metus auctor fringilla.",
-    ],
+    start: "APR 2026",
+    end: "AUG 2026",
+    company: "My InOut (iO)",
+    role: "Web Developer · Part-time",
+    technologies: [],
   },
   {
-    period: "2014 — 2018",
+    start: "SEP 2024",
+    end: "NOV 2024",
+    company: "Corom Music Entertainment",
+    role: "Software Developer · Freelance",
+    technologies: ["Web Development", "Android Development"],
+  },
+  {
+    start: "2022",
+    end: "2024",
+    company: "Meteor Inovasi Digital",
+    role: "Software Developer",
+    technologies: ["React", "Laravel", "NestJS"],
+  },
+  {
+    start: "2016",
+    end: "2018",
+    company: "Dataon",
     role: "Web Developer",
-    company: "Dolor Systems",
-    summary:
-      "Aenean lacinia bibendum nulla sed consectetur. Donec sed odio dui. Morbi leo risus, porta ac consectetur.",
-    technologies: ["JavaScript", "HTML", "CSS"],
-    achievements: [
-      "Praesent commodo cursus magna, vel scelerisque nisl consectetur.",
-      "Etiam porta sem malesuada magna mollis euismod.",
-    ],
+    technologies: ["Angular", "Ionic", "TypeScript"],
+  },
+  {
+    start: "2014",
+    end: "2016",
+    company: "Freelance",
+    role: "Senior Web Developer",
+    technologies: ["PHP", "Laravel", "CodeIgniter", "AngularJS"],
+  },
+  {
+    start: "2013",
+    end: "2014",
+    company: "Xinix",
+    role: "Junior Web Developer",
+    technologies: ["PHP", "JavaScript", "MySQL"],
   },
 ];

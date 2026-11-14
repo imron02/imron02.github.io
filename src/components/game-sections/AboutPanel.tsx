@@ -1,48 +1,57 @@
-import { profile } from "../../data/profile";
+import { useStore } from "@nanostores/preact";
 import { cn } from "../../lib/cn";
-import { text } from "../../lib/typography";
-import Badge from "../ui/Badge";
+import { $section } from "../../state/game";
+import AttributesPanel from "./about/AttributesPanel";
+import AdventureLogPanel from "./about/AdventureLogPanel";
+import CharacterProfilePanel, { CharacterSheetPanel } from "./about/CharacterProfilePanel";
+import EquippedTechPanel from "./about/EquippedTechPanel";
+import ProfileIdentity from "./about/ProfileIdentity";
+import StatusSummaryPanel from "./about/StatusSummaryPanel";
 
-const facts = [
-  { term: "Class", value: profile.class },
-  { term: "Experience", value: profile.yearsOfExperience },
-  { term: "Location", value: profile.location },
-  { term: "Status", value: "Available for quests" },
-];
+const reveal = "motion-safe:animate-reveal-card";
 
+/**
+ * About overlay: whole `LnfWr` composition on desktop (profile in the centre
+ * column, attributes + equipped tech on the right, adventure log spanning the
+ * full frame); `lTXor` stack on mobile.
+ */
 export default function AboutPanel() {
+  const section = useStore($section);
+  const open = section === "about";
+
   return (
-    <div class="grid gap-[0.9rem]">
-      <div>
-        <h2 class={text({ role: "heading-2" })}>{profile.name}</h2>
-        <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{profile.title}</p>
+    <div class="grid gap-3.5">
+      {/* Mobile hero identity (`ybUnv`) — hidden on desktop. */}
+      <div class="hidden mobile:block mobile:px-6 mobile:pt-2.5">
+        <ProfileIdentity chips class="mobile:gap-2.5" />
       </div>
-      <dl class="m-0">
-        {facts.map((fact) => (
-          <div
-            key={fact.term}
-            class="flex items-center justify-between gap-4 py-1.5 border-t border-border-subtle first:border-t-0"
-          >
-            <dt class={text({ role: "hud-micro" })}>{fact.term}</dt>
-            <dd class={cn(text({ role: "caption" }), "text-text-secondary", "m-0 text-right")}>
-              {fact.value}
-            </dd>
+
+      <div class="hidden mobile:grid mobile:gap-3.5 mobile:px-6 mobile:pt-2.5 mobile:pb-4">
+        <CharacterSheetPanel />
+        <StatusSummaryPanel />
+        <AttributesPanel />
+        <EquippedTechPanel />
+        <AdventureLogPanel />
+      </div>
+
+      <div class="grid grid-cols-1 items-start gap-x-[clamp(12px,1.46vw,28px)] gap-y-3.5 mobile:hidden xl:grid-cols-[minmax(0,25rem)_minmax(0,24rem)] xl:justify-between">
+        <div class={cn("min-w-0", open && reveal)} style={{ animationDelay: "0ms" }}>
+          <CharacterProfilePanel interactive />
+        </div>
+        <div class="grid w-full gap-3.5">
+          <div class={cn("min-w-0", open && reveal)} style={{ animationDelay: "100ms" }}>
+            <AttributesPanel interactive />
           </div>
-        ))}
-      </dl>
-      <div class="grid gap-2">
-        <p class={text({ role: "hud-label" })}>SPECIALIZATION</p>
-        <ul class="flex flex-wrap gap-1.5 list-none m-0 p-0">
-          {profile.specialization.map((item) => (
-            <li key={item}>
-              <Badge tone="secondary">{item}</Badge>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div class="grid gap-2">
-        <p class={text({ role: "hud-label" })}>CHARACTER DESCRIPTION</p>
-        <p class={cn(text({ role: "body-sm" }), "text-text-muted")}>{profile.bio}</p>
+          <div class={cn("min-w-0", open && reveal)} style={{ animationDelay: "200ms" }}>
+            <EquippedTechPanel interactive />
+          </div>
+        </div>
+        <div
+          class={cn("min-w-0 xl:col-span-2", open && reveal)}
+          style={{ animationDelay: "300ms" }}
+        >
+          <AdventureLogPanel interactive />
+        </div>
       </div>
     </div>
   );

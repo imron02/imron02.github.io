@@ -52,6 +52,7 @@
               "px-[clamp(20px,3.33vw,64px)]",
               "pt-[clamp(20px,3.52vh,38px)]",
               "pb-[clamp(24px,5vh,54px)]",
+              "pt-[env(safe-area-inset-top)]",
               "pt-[max(20px,env(safe-area-inset-top))]",
               "rounded-[1px]",
               "rounded-[inherit]",

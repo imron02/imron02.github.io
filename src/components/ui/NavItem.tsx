@@ -4,7 +4,7 @@ import { cn } from "../../lib/cn";
 import { hoverStart, hoverStop } from "../../lib/hoverMotion";
 
 const item = cva(
-  "relative overflow-hidden flex items-center gap-3 w-full h-12 px-4 bg-transparent font-hud text-[12px] font-medium tracking-[1.5px] uppercase text-left cursor-pointer border-t transition-[background-color,color,box-shadow] duration-150 ease-[ease] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-primary)_45%,transparent)] focus-visible:outline-2 focus-visible:outline-primary-hover focus-visible:-outline-offset-2 short-1000:h-10.5 short-900:h-9.5 short-900:text-[11px] short-820:h-8 short-820:text-[10px] short-820:tracking-[1.2px]",
+  "group relative overflow-hidden flex items-center gap-3 w-full h-12 px-4 bg-transparent font-hud text-[12px] font-medium tracking-[1.5px] uppercase text-left cursor-pointer border-t transition-[background-color,color,box-shadow] duration-150 ease-[ease] hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-primary)_45%,transparent)] focus-visible:outline-2 focus-visible:outline-primary-hover focus-visible:-outline-offset-2 short-1000:h-10.5 short-900:h-9.5 short-900:text-[11px] short-820:h-8 short-820:text-[10px] short-820:tracking-[1.2px]",
   {
     variants: {
       active: {
@@ -67,14 +67,27 @@ export default function NavItem({
         class={cn(spine({ active }), active && "motion-safe:animate-glow-pulse")}
         aria-hidden="true"
       />
-      <span class={cn("inline-flex", active ? "text-accent-lilac" : "text-text-muted")}>
+      <span
+        class={cn(
+          "inline-flex motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-[ease] motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:scale-110 motion-safe:group-focus-visible:scale-110",
+          active ? "text-accent-lilac" : "text-text-muted",
+        )}
+      >
         {icon}
       </span>
-      <span class={cn("flex-1", active ? "text-text-primary" : "text-text-secondary")}>
+      <span
+        class={cn(
+          "flex-1 motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-[ease] motion-safe:group-hover:translate-x-1 motion-safe:group-focus-visible:translate-x-1",
+          active ? "text-text-primary" : "text-text-secondary",
+        )}
+      >
         {label}
       </span>
       <span
-        class={cn("text-[7.5px] tracking-[1px]", active ? "text-primary-hover" : "text-text-ghost")}
+        class={cn(
+          "text-[7.5px] tracking-[1px] transition-[color,transform] duration-200 ease-[ease] group-hover:text-primary-hover motion-safe:group-hover:-translate-x-0.5",
+          active ? "text-primary-hover" : "text-text-ghost",
+        )}
       >
         {index}
       </span>

@@ -13,7 +13,8 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
       ├─ HUD grid            utilities: absolute z-10 CSS grid of [data-slot] wrappers
       │  ├─ rail             PlayerProfile (static), GameMenu, CurrentChapter (static), PlayerStatus (stacked)
       │  ├─ system           SystemBar            right top, fullscreen + ambient audio island
-      │  ├─ welcome          WelcomePanel + SectionOverlay   right, one visible at a time
+      │  ├─ welcome          WelcomePanel            right, only while section is home
+      │  ├─ section          SectionOverlay          spans centre + right columns, above the board
       │  ├─ quests           QuestBoard            left bottom, overflows the rail column
       │  ├─ corner           Companion (island) + SocialLinks (static)  right bottom
       │  ├─ chips            PlayerChips           mobile only
@@ -23,7 +24,9 @@ MainLayout.astro            <html>, fonts, meta, the single imported stylesheet 
 
 `index.astro` owns composition. Each island renders a `Panel`, reads what it needs; no island gets content props.
 
-`WelcomePanel` and `SectionOverlay` share `data-slot="welcome"`. Both key off `$section`: `WelcomePanel` returns `null` unless section is `home`. `SectionOverlay` keeps all five section bodies mounted, toggles `hidden` per panel (`home` hides all five) — so every section's copy stays in server-rendered HTML, crawlable. Tailwind preflight's `[hidden] { display: none !important }` keeps inactive panels out of layout. Only the matching panel is visible, so the slot still holds one thing at a time. Preserve both invariants when adding to that slot.
+`WelcomePanel` (slot `welcome`) and `SectionOverlay` (slot `section`) key off `$section`. `WelcomePanel` returns `null` unless section is `home`. `SectionOverlay` keeps all five section bodies mounted, toggles `hidden` per panel (`home` hides all five) — so every section's copy stays in server-rendered HTML, crawlable. Tailwind preflight's `[hidden] { display: none !important }` keeps inactive panels out of layout. Only the matching panel is visible, so the slot still holds one thing at a time. Preserve both invariants when adding to that slot.
+
+The `section` slot spans the centre and right columns (rows 2–3) so the About composition can lay its profile panel beside the attributes/tech stack over the quest board; every other section renders as the same centred modal `Panel` as before. On mobile the slot rows 4–5 so an open section scrolls over the quest board while the tab bar stays fixed — except About, which stretches to rows 1–5 and hides the other HUD slots while it is open (driven by `:has([data-about-active])` on the HUD grid). While it is open the HUD grid drops its mobile top padding and the section slot centers a `w-screen` box, so the overlay runs edge to edge above the tab bar; the About overlay restores `env(safe-area-inset-top)` as its own first padding so the header clears notch/standalone status bars.
 
 Astro wraps every hydrated component in an `<astro-island>` element. `[&_astro-island]:contents` on the HUD grid root lets rendered panels join the slot's flex/grid layout directly. Without it, siblings stack at zero height and overlap. Do not remove it, and do not assume an island's own tag is a layout box.
 
@@ -58,12 +61,12 @@ Below `1023px` collapses to one column plus a fixed bottom tab bar:
 "system"
 "chips"
 "companion"
-"welcome"
+"welcome / section"
 "quests"
 "tabs"
 ```
 
-`rail` and desktop `SocialLinks` hidden there; `PlayerChips` + `Companion` replace them, system bar renders compact. `welcome` row takes remaining height, anchors content to bottom, scrolls internally so `SectionOverlay` never overflows behind the tab bar. Below 400px header chips shrink (name truncates, chapter chip narrows) instead of overflowing. No other breakpoint — do not invent one without a reason.
+`rail` and desktop `SocialLinks` hidden there; `PlayerChips` + `Companion` replace them, system bar renders compact. `welcome` row takes remaining height, anchors content to bottom, scrolls internally so the welcome panel never overflows behind the tab bar; the `section` slot covers rows 4–5, so an open section scrolls over the quest board instead of being boxed into the welcome row. Below 400px header chips shrink (name truncates, chapter chip narrows) instead of overflowing. No other breakpoint — do not invent one without a reason.
 
 ## State
 

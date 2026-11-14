@@ -49,10 +49,6 @@ export default function TabBar() {
           );
         })}
       </ul>
-      <span
-        class="block w-33.5 h-1 mx-auto my-1.5 rounded-xs bg-[color-mix(in_srgb,var(--color-text-primary)_60%,transparent)]"
-        aria-hidden="true"
-      />
     </nav>
   );
 }

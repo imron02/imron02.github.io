@@ -30,6 +30,8 @@ const twMerge = extendTailwindMerge({
         "glow-pulse",
         "sheen-sweep",
         "caret-blink",
+        "menu-scan",
+        "scroll-cue",
       ],
     },
   },

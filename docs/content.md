@@ -6,10 +6,12 @@
 
 | File | Export | Feeds |
 |---|---|---|
-| `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactPanel` |
+| `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactPanel`, `PlayerStatus` |
 | `src/data/projects.ts` | `projects`, `Project` | `QuestBoard` (featured only), `ProjectPanel` |
 | `src/data/skills.ts` | `skillGroups`, `masteryLevels`, `SkillGroup`, `Skill`, `Mastery` | `SkillsTree` |
-| `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceLog` |
+| `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceLog`, `AdventureLogPanel` |
+| `src/data/attributes.ts` | `attributes`, `attributeScale`, `Attribute`, `AttributeTier`, `AttributeTone` | `AttributesPanel` (About overlay) |
+| `src/data/tech.ts` | `techInventory`, `techGroups`, `equippedTech`, `TechItem`, `TechGroup` | `EquippedTechPanel` (About overlay) |
 
 Components import directly. Change value, UI follows — no CMS, no fetch, no build-time content collection.
 
@@ -19,10 +21,14 @@ Components import directly. Change value, UI follows — no CMS, no fetch, no bu
 interface Profile {
   name: string; title: string; level: number; rank: string;
   xp: { current: number; goal: number };
-  avatar: string; location: string; locationShort: string;
+  avatar: string; locationShort: string;
   timeZone: string; utcOffsetLabel: string;
-  email: string; class: string;
-  yearsOfExperience: string; specialization: string[]; tagline: string;
+  email: string;
+  yearsOfExperience: string; tagline: string;
+  specializationLabel: string;   // short form used by the character sheet row
+  country: string;               // location row in the character sheet
+  currentFocus: string; alignment: string; preferredStack: string; workMode: string;
+  achievements: number; completion: number; // profile completion segments + trophy count
   bio: string; availability: string;
   chapter: { index: number; title: string; objectivesDone: number; objectivesTotal: number };
   session: { index: number; name: string };
@@ -32,10 +38,11 @@ interface Profile {
 ```
 
 - `level` is RPG badge number; `rank` is letter grade (`A`) beside it.
+- `specializationLabel`, `country`, `currentFocus`, `alignment`, `preferredStack`, `workMode`, `achievements` and `completion` feed the About overlay only: the character sheet rows (`01 EXPERIENCE` … `04 LOCATION`), the completion meter and the trophy count, plus the mobile `PLAYER STATUS` grid and the `PLAYER STATUS` rail rows.
 - `xp` is source of truth for XP bar. `xpPercent` and `xpRemaining` are derived exports in same module — never store percentage.
 - `chapter` drives `CurrentChapter`, mobile chapter chip and its bar; `chapterPercent` derived from objective counts.
 - `session` feeds desktop system bar; `companion.lines` rotates through the RIN dialogue box (first line doubles as the SSR and reduced-motion fallback).
-- `location` is long form (`Jakarta, Indonesia`), `locationShort` HUD chip form (`Jakarta, ID`). `utcOffsetLabel` is display string; `timeZone` is real IANA zone used by `Intl.DateTimeFormat` for live clock.
+- `locationShort` is the HUD chip form (`Jakarta, ID`); `country` carries the character-sheet `04 LOCATION` row. `utcOffsetLabel` is display string; `timeZone` is real IANA zone used by `Intl.DateTimeFormat` for live clock.
 - `avatar` is path **relative to `public/`**, no leading slash (`images/avatar.webp`). Components prepend `BASE_URL`.
 - `ContactPanel` splits `socials`: entries whose `href` starts with `mailto:` filtered out of external list. Email rendered separately from `profile.email` — keep `email` authoritative, do not rely on `mailto:` social for email button. `SocialLinks` renders all three as icon links.
 - `MainLayout.astro` has own hardcoded `title`/`description` defaults — update those too when site name or positioning changes.
@@ -78,15 +85,28 @@ Groups render in array order, group `title` as heading. Skill names must be uniq
 
 ```ts
 interface ExperienceItem {
-  period: string;            // "2022 — Present" (em dash, spaced)
+  start: string;             // "2022"
+  end: string;               // "2024" or "PRESENT"
   role: string; company: string;
-  summary: string;
-  technologies: string[];    // rendered as badges
-  achievements: string[];    // rendered as bullet list
+  technologies: string[];    // rendered as badges / joined stack line
+  active?: boolean;          // newest-first entry: highlighted node, ACTIVE tag
+  summary?: string;          // optional long copy (ExperienceLog overlay)
+  achievements?: string[];   // optional bullet list (ExperienceLog overlay)
 }
 ```
 
-Newest first. List key is `company + period` — both must be distinct.
+Newest first. Key is `company` + `start` (both `ExperienceLog` and `AdventureLogPanel` key on the pair). `ExperienceLog` (ADVENTURE LOG section) shows period, summary and achievements; `AdventureLogPanel` in the About overlay renders the same data as the milestone track — do not fork the data, extend this array.
+
+## `attributes` and `tech`
+
+```ts
+type AttributeTier = "SPECIALIZATION" | "STRONG" | "EXPERIENCED" | "EXPLORING";
+interface Attribute { name: string; icon: AttributeIcon; tier: AttributeTier;
+                      tone: AttributeTone; level: number; }   // level of attributeScale (5)
+interface TechItem { label: string; icon: TechIcon; group: TechGroup; equipped?: boolean; }
+```
+
+`AttributesPanel` renders one row per attribute: icon, name, tier chip and a five-segment bar; the bar is qualitative (`role="img"`, no numeric score in the UI). `EquippedTechPanel` renders `techInventory` as a four-slot-per-row grid grouped by `techGroups` (frontend / mobile / backend / tools) plus a detail strip for the single `equipped` item. `techInventory` renders four slots per row in array order; the row count follows the array length and `techGroups` only supplies the legend labels.
 
 ## Editing rules
 
@@ -99,4 +119,4 @@ Newest first. List key is `company + period` — both must be distinct.
 
 ## Composition note
 
-Section bodies read data but keep own framing (`AboutPanel` adds "Status: Available for quests" row, `ContactPanel` derives `externalLinks`). Do not push that logic into `src/data/` — data stays declarative, components own presentation.
+Section bodies read data but keep own framing (`ContactPanel` derives `externalLinks`, the About composition splits copy across `src/components/game-sections/about/*` panels). Do not push that logic into `src/data/` — data stays declarative, components own presentation.

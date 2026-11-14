@@ -18,7 +18,7 @@ import type { ComponentChildren } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { cva } from "class-variance-authority";
 import { projects, tierMeta } from "../../data/projects";
-import { $selectedProject, gameActions } from "../../state/game";
+import { $section, $selectedProject, gameActions } from "../../state/game";
 import { cn } from "../../lib/cn";
 import { hoverStart, hoverStop } from "../../lib/hoverMotion";
 import Badge from "../ui/Badge";
@@ -75,6 +75,7 @@ const pageCount = Math.max(1, Math.ceil(featuredProjects.length / PAGE_SIZE));
 
 export default function QuestBoard() {
   const revealed = useRevealed();
+  const section = useStore($section);
   const selectedId = useStore($selectedProject);
   const [page, setPage] = useState(0);
   const pageProjects = featuredProjects.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
@@ -112,6 +113,7 @@ export default function QuestBoard() {
       bodyClass="gap-3 p-4 short-1000:gap-2.5 short-1000:py-3 short-900:gap-2 short-900:px-3.5 short-900:py-2.5 short-820:gap-1.5 short-820:px-3 short-820:py-2 mobile:gap-2 mobile:px-6 mobile:py-3 xs:px-4"
       aria-label="Quest board"
       as="section"
+      hidden={section === "about"}
       onKeyDown={(event) => {
         if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
         event.preventDefault();

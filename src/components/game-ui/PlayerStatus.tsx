@@ -2,20 +2,21 @@ import { profile } from "../../data/profile";
 import { cn } from "../../lib/cn";
 import { text } from "../../lib/typography";
 import Panel from "../ui/Panel";
-import { useLocalClock } from "./useLocalClock";
+
+export interface StatusRow {
+  term: string;
+  value: string;
+  tone?: "success";
+}
+
+export const statusRows: StatusRow[] = [
+  { term: "ALIGNMENT", value: profile.alignment },
+  { term: "PREFERRED STACK", value: profile.preferredStack },
+  { term: "WORK MODE", value: profile.workMode },
+  { term: "AVAILABILITY", value: profile.availability, tone: "success" },
+];
 
 export default function PlayerStatus() {
-  const clock = useLocalClock();
-
-  const rows = [
-    { term: "AVAILABILITY", value: profile.availability.toUpperCase() },
-    { term: "LOCATION", value: profile.locationShort.toUpperCase() },
-    {
-      term: "LOCAL TIME",
-      value: `${profile.utcOffsetLabel} · ${clock ?? "--:--"}`,
-    },
-  ];
-
   return (
     <Panel
       variant="hud"
@@ -33,13 +34,20 @@ export default function PlayerStatus() {
         </span>
       </div>
       <dl class="m-0">
-        {rows.map((row) => (
+        {statusRows.map((row) => (
           <div
             key={row.term}
             class="flex items-center justify-between gap-3 h-8 px-4 border-t border-[color-mix(in_srgb,var(--color-text-primary)_8%,transparent)] font-hud text-[8.5px] leading-[1.2] uppercase short-1000:h-7 short-900:h-6.25 short-820:h-5.5"
           >
             <dt class="tracking-[1.2px] text-text-faint">{row.term}</dt>
-            <dd class="m-0 tracking-[1px] text-text-primary text-right">{row.value}</dd>
+            <dd
+              class={cn(
+                "m-0 tracking-[1px] text-text-primary text-right",
+                row.tone === "success" && "text-success",
+              )}
+            >
+              {row.value.toUpperCase()}
+            </dd>
           </div>
         ))}
       </dl>
