@@ -72,9 +72,6 @@ const rows = Array.from(
     techInventory.slice(rowIndex * SLOTS_PER_ROW, rowIndex * SLOTS_PER_ROW + SLOTS_PER_ROW),
 );
 
-const featured = techInventory.find((item) => item.equipped) ?? techInventory[0];
-const featuredGroupLabel = techGroups.find((entry) => entry.id === featured.group)?.label ?? "";
-
 export default function EquippedTechPanel({
   class: className,
   interactive,
@@ -82,8 +79,6 @@ export default function EquippedTechPanel({
   class?: string;
   interactive?: boolean;
 }) {
-  const FeaturedIcon = icons[featured.icon];
-
   return (
     <DesignPanel
       title="EQUIPPED TECHNOLOGIES"
@@ -111,7 +106,7 @@ export default function EquippedTechPanel({
         ))}
       </ul>
 
-      <ul class="grid gap-1.5 list-none m-0 p-0">
+      <ul class="grid gap-1.5 list-none m-0 p-0 pb-4">
         {rows.map((row, rowIndex) => (
           <li key={`tech-row-${rowIndex}`} class="grid grid-cols-4 gap-1.5">
             {row.map((item) => {
@@ -149,27 +144,6 @@ export default function EquippedTechPanel({
           </li>
         ))}
       </ul>
-
-      <div class="flex items-center gap-2.75 mt-2 px-4 py-2.75 border-t border-[color-mix(in_srgb,var(--color-primary)_30%,transparent)] bg-[color-mix(in_srgb,var(--color-primary)_8%,transparent)]">
-        <span
-          class="grid flex-none place-items-center w-7.5 h-7.5 rounded-[1px] border border-[color-mix(in_srgb,var(--color-primary)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-primary)_15%,transparent)] text-accent-lilac"
-          aria-hidden="true"
-        >
-          <FeaturedIcon size={15} strokeWidth={1.5} />
-        </span>
-        <div class="grid min-w-0 gap-0.5">
-          <p class="m-0 font-hud text-[9px] leading-none tracking-[1.5px] uppercase text-text-primary">
-            {featured.label}
-          </p>
-          <p class="m-0 truncate font-hud text-[6.5px] leading-none tracking-[0.9px] uppercase text-primary-hover">
-            {`${featuredGroupLabel} · SPECIALIZATION`}
-          </p>
-        </div>
-        <span class="flex-1" aria-hidden="true" />
-        <span class="flex-none px-1.5 py-0.75 rounded-[1px] border border-[color-mix(in_srgb,var(--color-success)_25%,transparent)] bg-[color-mix(in_srgb,var(--color-success)_8%,transparent)] font-hud text-[6.5px] leading-none tracking-[0.9px] uppercase text-[color-mix(in_srgb,var(--color-success)_70%,var(--color-text-primary))]">
-          EQUIPPED
-        </span>
-      </div>
     </DesignPanel>
   );
 }
