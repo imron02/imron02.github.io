@@ -1,29 +1,29 @@
 import { useStore } from "@nanostores/preact";
-import { ArrowLeft, ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-preact";
+import { ArrowLeft, ChevronDown, ChevronRight } from "lucide-preact";
 import type { ComponentType } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { $section, gameActions } from "../../state/game";
 import type { GameSection } from "../../state/game";
 import AboutPanel from "../game-sections/AboutPanel";
 import AboutSectionId from "../game-sections/about/AboutSectionId";
-import ProjectPanel from "../game-sections/ProjectPanel";
+import ProjectsArchive from "../game-sections/ProjectsArchive";
 import SkillsTree from "../game-sections/SkillsTree";
 import ExperienceLog from "../game-sections/ExperienceLog";
 import ContactPanel from "../game-sections/ContactPanel";
 import Button from "../ui/Button";
 import IconButton from "../ui/IconButton";
 import Panel from "../ui/Panel";
+import CloseButton from "./CloseButton";
 import { cn } from "../../lib/cn";
 import { prefersReducedMotion } from "../../lib/reduceMotion";
 import { text } from "../../lib/typography";
 
 type SectionId = Exclude<GameSection, "home">;
 
-/** About floats its panels over the world; these render inside the modal archive shell. */
-type ModalSectionId = Exclude<SectionId, "about">;
+/** About and Projects float their own compositions over the world; the rest render inside the modal shell. */
+type ModalSectionId = Exclude<SectionId, "about" | "projects">;
 
 const sections: Record<ModalSectionId, { label: string; Body: ComponentType }> = {
-  projects: { label: "QUEST LOG", Body: ProjectPanel },
   skills: { label: "SKILL TREE", Body: SkillsTree },
   experience: { label: "ADVENTURE LOG", Body: ExperienceLog },
   contact: { label: "COMMUNICATION PORTAL", Body: ContactPanel },
@@ -31,22 +31,6 @@ const sections: Record<ModalSectionId, { label: string; Body: ComponentType }> =
 
 // Insertion order = panel order in the overlay.
 const sectionOrder = Object.keys(sections) as ModalSectionId[];
-
-function CloseButton({ onClose }: { onClose: () => void }) {
-  return (
-    <IconButton
-      size="sm"
-      label="Return to world"
-      icon={
-        <>
-          <X size={14} strokeWidth={1.5} class="mobile:hidden" />
-          <ChevronLeft size={14} strokeWidth={1.5} class="hidden mobile:block" />
-        </>
-      }
-      onClick={onClose}
-    />
-  );
-}
 
 /** About composition (`LnfWr` / `lTXor`): design header + floating panels, no modal shell. */
 function AboutOverlay({ active, onClose }: { active: boolean; onClose: () => void }) {
@@ -150,6 +134,7 @@ export default function SectionOverlay() {
   return (
     <>
       <AboutOverlay active={section === "about"} onClose={closeSection} />
+      <ProjectsArchive active={section === "projects"} onClose={closeSection} />
       {sectionOrder.map((id) => {
         const { label, Body } = sections[id];
 

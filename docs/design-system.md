@@ -6,7 +6,7 @@
 
 | File | Scope |
 |---|---|
-| `src/styles/global.css` | Tailwind import, the five `@custom-variant` breakpoints, `@theme` tokens (incl. `--animate-*` keys + keyframes), base resets, reduced-motion neutralizer |
+| `src/styles/global.css` | Tailwind import, the six `@custom-variant` breakpoints, `@theme` tokens (incl. `--animate-*` keys + keyframes), base resets, reduced-motion neutralizer |
 
 Only project stylesheet; font packages are imported in `MainLayout.astro`. No `.ds-*` or BEM stylesheets — every component styled with Tailwind utilities in the `.tsx` / `.astro` file that renders it. Shared class data lives in two helpers:
 
@@ -130,7 +130,7 @@ Boolean/optional props use defaults in destructure; `class: className` aliasing;
 
 ## Responsive
 
-Five custom variants registered in `global.css`. Tailwind emits `@custom-variant` blocks in registration order, so **later wins without `!`** — `mobile` before `xs` is load-bearing:
+Six custom variants registered in `global.css`. Tailwind emits `@custom-variant` blocks in registration order, so **later wins without `!`** — `mobile` before `xs` is load-bearing:
 
 | Variant | Condition |
 |---|---|
@@ -139,5 +139,8 @@ Five custom variants registered in `global.css`. Tailwind emits `@custom-variant
 | `short-1000:` | `(min-width: 1024px) and (max-height: 1000px) and (height > 900px)` |
 | `short-900:` | `(min-width: 1024px) and (max-height: 900px) and (height > 820px)` |
 | `short-820:` | `(min-width: 1024px) and (max-height: 820px)` |
+| `compact:` | `(min-width: 1024px) and (max-width: 1440px)` — desktop width tier; registered last so it wins over base and `short-*` |
 
-Three short tiers mutually exclusive, together cover every height. Design's old stacked `max-height` media queries were cumulative: when matching them, compute **effective value per band** (>1000px / 901–1000 / 821–900 / ≤820) and emit it on the matching variant. `mobile:` layout restacks HUD to rows (system → chips → companion → welcome → quests → tabs), swaps world layer positions/images, reveals tab bar; desktop short tiers shrink rail so it never scrolls. Spacing/font sizes elsewhere use `clamp()`. Check both layouts and all three desktop tiers for any UI change.
+Three short tiers mutually exclusive, together cover every height. Design's old stacked `max-height` media queries were cumulative: when matching them, compute **effective value per band** (>1000px / 901–1000 / 821–900 / ≤820) and emit it on the matching variant. `mobile:` layout restacks HUD to rows (system → chips → companion → welcome → quests → tabs), swaps world layer positions/images, reveals tab bar; desktop short tiers shrink rail so it never scrolls. Spacing/font sizes elsewhere use `clamp()`. Check both layouts, all three desktop tiers and the `compact` width tier (quest index single column, dossier `self-start`) for any UI change.
+
+- The projects archive (`ProjectsArchive`) is its own query container: `@container` on the panel root plus `@min-[920px]:` variants own its two-column (archive + dossier) vs stacked composition, and the desktop `ArchiveStatus` bar hides its decorative segments in the same query. The threshold is measured panel content width, not viewport — 883px at a 1366px viewport (stacks) vs 951px at 1440px (two columns). Viewport `mobile:` still owns HUD chrome (full-bleed background, padding) inside that panel.

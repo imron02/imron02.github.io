@@ -46,6 +46,6 @@ Petal drift uses `motion-safe:animate-petal-float` — alternating petals use `m
 - Background and character art render through `astro:assets` `<Image>` with `width`/`height` set. Both `src` values stay `public/images/*` strings, so Astro passes them through unoptimized (no `srcset`, no re-encode) — the component buys the CLS guard and satisfies the dev-toolbar `perf-use-image-component` audit.
 - `<picture>` + raw `<source media>` stays native for the character because `Picture` cannot art-direct two separate files by media query; only its inner image is an `<Image>`.
 - Background image = `priority` (eager + `fetchpriority="high"`) with explicit `decoding="async"`; `LoadingScreen` also preloads it with `new Image()`.
-- `astro:assets` is Astro-only. Preact islands (`QuestBoard`, `ProjectPanel`) render plain `<img>` with `width`/`height` for the same CLS guard — do not try to import `astro:assets` there.
+- `astro:assets` is Astro-only. Preact islands (`QuestBoard`, `ProjectsArchive`) render plain `<img>` with `width`/`height` for the same CLS guard — do not try to import `astro:assets` there.
 - Every colour derives from `@theme` tokens via `color-mix()`; no raw hex.
 - Do not add canvas, WebGL, or animation loop. World intentionally static layers.
