@@ -25,14 +25,14 @@ export const experience: ExperienceItem[] = [
     end: "AUG 2026",
     company: "My InOut (iO)",
     role: "Web Developer · Part-time",
-    technologies: [],
+    technologies: ["React", "Next.js", "Tailwind CSS"],
   },
   {
     start: "SEP 2024",
     end: "NOV 2024",
     company: "Corom Music Entertainment",
     role: "Software Developer · Freelance",
-    technologies: ["Web Development", "Android Development"],
+    technologies: ["React Native", "Android Development", "Firebase"],
   },
   {
     start: "2022",
