@@ -37,7 +37,7 @@ export interface Profile {
   socials: SocialLink[];
 }
 
-const email = "hello@example.com";
+const email = "imron02@gmail.com";
 
 export const profile: Profile = {
   name: "Imron Rosdiana",
@@ -82,7 +82,7 @@ export const profile: Profile = {
   },
   socials: [
     { label: "GitHub", href: "https://github.com/imron02" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/imron-rosdiana" },
+    { label: "LinkedIn", href: "https://id.linkedin.com/in/imron-rosdiana-099a14132" },
     { label: "Email", href: `mailto:${email}` },
   ],
 };

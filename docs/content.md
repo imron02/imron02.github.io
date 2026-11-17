@@ -6,7 +6,8 @@
 
 | File | Export | Feeds |
 |---|---|---|
-| `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactPanel`, `PlayerStatus` |
+| `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactArchive`, `PlayerStatus` |
+| `src/data/contact.ts` | `contactChannels`, `contactCopy`, `ContactChannel`, `ContactChannelId`, `ContactChannelLink` | `ContactArchive` (channel cards, terminal rows, hero and closing copy) |
 | `src/data/projects.ts` | `projects`, `Project` | `QuestBoard` (featured only), `ProjectsArchive` |
 | `src/data/skills.ts` | `skillCategories`, `skillArtifacts`, `skillProfile`, `researchThreads`, `scoutingTags`, `scanEntries`, `skillTree`, `SkillCategory`, `SkillArtifact` | `SkillsArchive` (all inventory cards, shelves, analysis and side-rail panels) |
 | `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceArchive`, `AdventureLogPanel` |
@@ -44,7 +45,7 @@ interface Profile {
 - `session` feeds desktop system bar; `companion.lines` rotates through the RIN dialogue box (first line doubles as the SSR and reduced-motion fallback).
 - `locationShort` is the HUD chip form (`Jakarta, ID`); `country` carries the character-sheet `04 LOCATION` row. `utcOffsetLabel` is display string; `timeZone` is real IANA zone used by `Intl.DateTimeFormat` for live clock.
 - `avatar` is path **relative to `public/`**, no leading slash (`images/avatar.webp`). Components prepend `BASE_URL`.
-- `ContactPanel` splits `socials`: entries whose `href` starts with `mailto:` filtered out of external list. Email rendered separately from `profile.email` — keep `email` authoritative, do not rely on `mailto:` social for email button. `SocialLinks` renders all three as icon links.
+- `ContactArchive` resolves channel links from `profile`: the email channel always uses `profile.email` — keep `email` authoritative, do not rely on the `mailto:` social or the design's placeholder address; LinkedIn/GitHub match on `socials.label` lowercased and strip protocol/www/trailing slash for the card handle. A channel whose social is missing drops from the card grid and terminal rows instead of rendering a dead link. `SocialLinks` renders all three as icon links.
 - `MainLayout.astro` has own hardcoded `title`/`description` defaults — update those too when site name or positioning changes.
 
 ## `projects`
@@ -149,4 +150,4 @@ interface TechItem { label: string; icon: TechIcon; group: TechGroup; equipped?:
 
 ## Composition note
 
-Section bodies read data but keep own framing (`ContactPanel` derives `externalLinks`, the About composition splits copy across `src/components/game-sections/about/*` panels). Do not push that logic into `src/data/` — data stays declarative, components own presentation.
+Section bodies read data but keep own framing (`ContactArchive` derives `channelLinks` from `contactChannels` + `profile`, the About composition splits copy across `src/components/game-sections/about/*` panels). Do not push that logic into `src/data/` — data stays declarative, components own presentation.

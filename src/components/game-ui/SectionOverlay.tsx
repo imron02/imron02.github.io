@@ -9,7 +9,7 @@ import AboutSectionId from "../game-sections/about/AboutSectionId";
 import ProjectsArchive from "../game-sections/ProjectsArchive";
 import SkillsArchive from "../game-sections/SkillsArchive";
 import ExperienceArchive from "../game-sections/ExperienceArchive";
-import ContactPanel from "../game-sections/ContactPanel";
+import ContactArchive from "../game-sections/ContactArchive";
 import Button from "../ui/Button";
 import IconButton from "../ui/IconButton";
 import Panel from "../ui/Panel";
@@ -20,12 +20,20 @@ import { text } from "../../lib/typography";
 
 type SectionId = Exclude<GameSection, "home">;
 
-/** About, Projects, Skills and Experience float their own compositions over the world; the rest render inside the modal shell. */
-type ModalSectionId = Exclude<SectionId, "about" | "projects" | "skills" | "experience">;
+/** About, Projects, Skills, Experience and Contact float their own compositions over the world; any section without one still renders inside the modal shell. */
+type ModalSectionId = Exclude<
+  SectionId,
+  "about" | "projects" | "skills" | "experience" | "contact"
+>;
 
-const sections: Record<ModalSectionId, { label: string; Body: ComponentType }> = {
-  contact: { label: "COMMUNICATION PORTAL", Body: ContactPanel },
-};
+interface SectionEntry {
+  label: string;
+  Body: ComponentType;
+}
+
+// Empty while every section floats its own composition; a new `GameSection`
+// without an entry here fails `pnpm check`.
+const sections: Record<ModalSectionId, SectionEntry> = {};
 
 // Insertion order = panel order in the overlay.
 const sectionOrder = Object.keys(sections) as ModalSectionId[];
@@ -136,8 +144,9 @@ export default function SectionOverlay() {
       <ProjectsArchive active={section === "projects"} onClose={closeSection} />
       <SkillsArchive active={section === "skills"} onClose={closeSection} />
       <ExperienceArchive active={section === "experience"} onClose={closeSection} />
+      <ContactArchive active={section === "contact"} onClose={closeSection} />
       {sectionOrder.map((id) => {
-        const { label, Body } = sections[id];
+        const { label, Body }: SectionEntry = sections[id];
 
         return (
           <Panel

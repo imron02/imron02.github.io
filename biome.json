@@ -55,6 +55,7 @@
               "pt-[env(safe-area-inset-top)]",
               "pt-[max(20px,env(safe-area-inset-top))]",
               "rounded-[1px]",
+              "rounded-[50%]",
               "rounded-[inherit]",
               "border-t-[1.5px]",
               "border-r-[1.5px]"
