@@ -8,7 +8,7 @@ import AboutPanel from "../game-sections/AboutPanel";
 import AboutSectionId from "../game-sections/about/AboutSectionId";
 import ProjectsArchive from "../game-sections/ProjectsArchive";
 import SkillsArchive from "../game-sections/SkillsArchive";
-import ExperienceLog from "../game-sections/ExperienceLog";
+import ExperienceArchive from "../game-sections/ExperienceArchive";
 import ContactPanel from "../game-sections/ContactPanel";
 import Button from "../ui/Button";
 import IconButton from "../ui/IconButton";
@@ -20,11 +20,10 @@ import { text } from "../../lib/typography";
 
 type SectionId = Exclude<GameSection, "home">;
 
-/** About, Projects and Skills float their own compositions over the world; the rest render inside the modal shell. */
-type ModalSectionId = Exclude<SectionId, "about" | "projects" | "skills">;
+/** About, Projects, Skills and Experience float their own compositions over the world; the rest render inside the modal shell. */
+type ModalSectionId = Exclude<SectionId, "about" | "projects" | "skills" | "experience">;
 
 const sections: Record<ModalSectionId, { label: string; Body: ComponentType }> = {
-  experience: { label: "ADVENTURE LOG", Body: ExperienceLog },
   contact: { label: "COMMUNICATION PORTAL", Body: ContactPanel },
 };
 
@@ -136,6 +135,7 @@ export default function SectionOverlay() {
       <AboutOverlay active={section === "about"} onClose={closeSection} />
       <ProjectsArchive active={section === "projects"} onClose={closeSection} />
       <SkillsArchive active={section === "skills"} onClose={closeSection} />
+      <ExperienceArchive active={section === "experience"} onClose={closeSection} />
       {sectionOrder.map((id) => {
         const { label, Body } = sections[id];
 

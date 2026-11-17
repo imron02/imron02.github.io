@@ -9,7 +9,7 @@
 | `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactPanel`, `PlayerStatus` |
 | `src/data/projects.ts` | `projects`, `Project` | `QuestBoard` (featured only), `ProjectsArchive` |
 | `src/data/skills.ts` | `skillCategories`, `skillArtifacts`, `skillProfile`, `researchThreads`, `scoutingTags`, `scanEntries`, `skillTree`, `SkillCategory`, `SkillArtifact` | `SkillsArchive` (all inventory cards, shelves, analysis and side-rail panels) |
-| `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceLog`, `AdventureLogPanel` |
+| `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceArchive`, `AdventureLogPanel` |
 | `src/data/attributes.ts` | `attributes`, `attributeScale`, `Attribute`, `AttributeTier`, `AttributeTone` | `AttributesPanel` (About overlay) |
 | `src/data/tech.ts` | `techInventory`, `techGroups`, `equippedTech`, `TechItem`, `TechGroup` | `EquippedTechPanel` (About overlay) |
 
@@ -113,17 +113,19 @@ interface SkillCategory { id: SkillClassId; index: string; title: string; tabLab
 
 ```ts
 interface ExperienceItem {
-  start: string;             // "2022"
-  end: string;               // "2024" or "PRESENT"
+  start: string;             // "2022" or "APR 2026"
+  end: string;               // "2024", "AUG 2026" or "PRESENT"
   role: string; company: string;
   technologies: string[];    // rendered as badges / joined stack line
-  active?: boolean;          // newest-first entry: highlighted node, ACTIVE tag
-  summary?: string;          // optional long copy (ExperienceLog overlay)
-  achievements?: string[];   // optional bullet list (ExperienceLog overlay)
+  active?: boolean;          // newest-first entry: ACTIVE QUEST status
+  parallel?: boolean;        // PARALLEL CONTRACT: out of COMPANIES count and progression rail
+  projectId?: string;        // projects.ts id whose quest this role shipped (dossier link)
+  summary?: string;          // card + dossier description
+  achievements?: string[];   // dossier CORE RESPONSIBILITIES block
 }
 ```
 
-Newest first. Key is `company` + `start` (both `ExperienceLog` and `AdventureLogPanel` key on the pair). `ExperienceLog` (ADVENTURE LOG section) shows period, summary and achievements; `AdventureLogPanel` in the About overlay renders the same data as the milestone track — do not fork the data, extend this array.
+Newest first. Key is `company` + `start` (both `ExperienceArchive` and `AdventureLogPanel` key on the pair). `ExperienceArchive` (QUEST HISTORY section) renders the timeline cards, dossier, log index and career progression — `summary` feeds card + dossier copy, `achievements` the responsibilities block (block omitted when absent, never invented), `projectId` resolves through `projectFor` for the hero thumbnail, title and `EXPLORE` action; counts (`QUESTS`, `COMPANIES`, `PARALLEL`) and the progression rail all derive from the array — never store a duplicate total. `AdventureLogPanel` in the About overlay renders the same data as the milestone track — do not fork the data, extend this array.
 
 ## `attributes` and `tech`
 
