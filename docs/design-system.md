@@ -11,7 +11,7 @@
 Only project stylesheet; font packages are imported in `MainLayout.astro`. No `.ds-*` or BEM stylesheets — every component styled with Tailwind utilities in the `.tsx` / `.astro` file that renders it. Shared class data lives in two helpers:
 
 - **`cn(...)`** (`src/lib/cn.ts`) = `twMerge(clsx(...))`. Conflicting utilities in same class group collapse, **last argument wins**. Caller's `class` / `bodyClass` / `spineClass` always the last `cn` argument. Tuned so `font-size` does not resolve against `leading`, and the three project animations merge as one group. Single-source classes skip it: a lone literal is `class="…"`, a lone cva call is `class={panel({ variant })}`.
-- **`cva(...)`** (`class-variance-authority`) — variants as data: `ui/` primitives (Panel, Button, Badge, NavItem, ProgressBar, SkillMeter, StatTile) plus component-local recipes (QuestBoard card, TabBar item). cva only concatenates; wrap it in `cn(...)` only when another source must merge over it — `cn(panel({ variant }), className)`.
+- **`cva(...)`** (`class-variance-authority`) — variants as data: `ui/` primitives (Panel, Button, Badge, NavItem, ProgressBar, StatTile) plus component-local recipes (QuestBoard card, TabBar item). cva only concatenates; wrap it in `cn(...)` only when another source must merge over it — `cn(panel({ variant }), className)`.
 
 Hard rules:
 
@@ -80,7 +80,6 @@ Inline recipes — no classes:
 | `Badge` | `tone` `gold\|primary\|secondary\|muted\|success\|danger\|info` | Non-interactive chip. |
 | `NavItem` | `index`, `label`, `icon`, `active`, `onClick` | Styles baked for GameMenu context (only consumer). Sets `aria-current="page"` when active. |
 | `ProgressBar` | `value` 0–100, `label`, `tone`, `size` `sm\|md` | Clamps internally, exposes `role="progressbar"`. Caller `class` lands on root; tone bar is a `[&>span]` target for overrides. |
-| `SkillMeter` | `level`, `max` (default 4), `label` | Segmented pips, `role="img"` + label. |
 | `StatTile` | `label`, `value`, `sub`, `subTone` | Static metric block. Currently unused — available for stat rows. |
 
 Primitive conventions to copy:
@@ -110,7 +109,7 @@ Boolean/optional props use defaults in destructure; `class: className` aliasing;
 
 ## Accessibility baseline
 
-- Exactly one `<h1>` on page — `WelcomePanel`'s title. Detail panels use `<h2>`; nested group titles `<h3>`. `SkillsTree` starts at `<h3>` (renders group headings inside overlay). Do not add a heading level purely to satisfy a numbering rule, and never add a second `<h1>`.
+- Exactly one `<h1>` on page — `WelcomePanel`'s title. Detail panels use `<h2>`; nested group titles `<h3>`. `SkillsArchive` uses `<h2>` for the `MY SKILLS` title and side-rail panels, and `<h3>` for category headings. Do not add a heading level purely to satisfy a numbering rule, and never add a second `<h1>`.
 - Every icon-only control has an accessible name (`IconButton`'s `label`).
 - Decorative images use `alt=""`; whole `WorldScene` layer is `aria-hidden`.
 - Loading state is a `role="status"` region with `aria-live="polite"`.

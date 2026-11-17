@@ -8,7 +8,7 @@
 |---|---|---|
 | `src/data/profile.ts` | `profile`, `Profile`, `SocialLink` | `PlayerProfile`, `WelcomePanel`, `AboutPanel`, `ContactPanel`, `PlayerStatus` |
 | `src/data/projects.ts` | `projects`, `Project` | `QuestBoard` (featured only), `ProjectsArchive` |
-| `src/data/skills.ts` | `skillGroups`, `masteryLevels`, `SkillGroup`, `Skill`, `Mastery` | `SkillsTree` |
+| `src/data/skills.ts` | `skillCategories`, `skillArtifacts`, `skillProfile`, `researchThreads`, `scoutingTags`, `scanEntries`, `skillTree`, `SkillCategory`, `SkillArtifact` | `SkillsArchive` (all inventory cards, shelves, analysis and side-rail panels) |
 | `src/data/experience.ts` | `experience`, `ExperienceItem` | `ExperienceLog`, `AdventureLogPanel` |
 | `src/data/attributes.ts` | `attributes`, `attributeScale`, `Attribute`, `AttributeTier`, `AttributeTone` | `AttributesPanel` (About overlay) |
 | `src/data/tech.ts` | `techInventory`, `techGroups`, `equippedTech`, `TechItem`, `TechGroup` | `EquippedTechPanel` (About overlay) |
@@ -86,11 +86,28 @@ interface Project {
 ## `skills`
 
 ```ts
-type Mastery = "novice" | "adept" | "expert" | "master";
-// masteryLevels → 1 | 2 | 3 | 4 pips of 4
+type SkillClassId = "frontend" | "mobile" | "backend" | "database" | "tools" | "exploration";
+type ArtifactTier = "signature" | "primary" | "support" | "scout";
+interface SkillArtifact {
+  id: string; name: string; code: string;
+  tier: ArtifactTier; baseStatus: "equipped" | "scout";
+  equippedByDefault: boolean;
+  logo?: string;        // file stem in public/images/tech
+  icon?: ArtifactIcon;  // lucide fallback when no logo
+  description: string;
+  since?: string; stack?: string; synergy?: string[]; signature?: boolean; // React only
+}
+interface SkillCategory { id: SkillClassId; index: string; title: string; tabLabel: string;
+  mobileLabel: string; rank: string; tone: "gold" | "secondary" | "pink" | "success" | "scout";
+  description: string; artifacts: SkillArtifact[]; }
 ```
 
-Groups render in array order, group `title` as heading. Skill names must be unique **within a group** (used as Preact key).
+- Six categories in array order (`frontend`, `mobile`, `backend`, `database`, `tools`, `exploration`), 35 artifacts total, `skillArtifacts` flattened from them. Category tabs, mobile chips, the arsenal register and every count derive from these arrays — never store a duplicate total.
+- `equippedByDefault` seeds the loadout toggle; exploration artifacts are `baseStatus: "scout"` and start unequipped. `statusLabel` / `statusClass` in `skills/skillMeta.tsx` map that state to `EQ` / `SCAN` / `STBY`.
+- Logos resolve through `logoUrl()` as `images/tech/<stem>.png`; `icon` falls back to a lucide glyph when no brand mark exists.
+- Quest counts derive from `projects[].technologies` via `questsUsing(name)` (case-sensitive, `includes`). A change in project data changes `SHIPPED IN`, the signature card quest count and the `QUESTS USE REACT` footer.
+- `skillProfile` feeds the hero holo stats; `researchThreads` feed the currently-learning cards and mobile rows; `scanEntries` feed the scan log (5 collapsed, 7 expanded); `skillTree` owns node coordinates and link count for the canvas.
+- `skillMeta.tsx` owns tier/category tone classes, glyph mapping and badge helpers. Do not put class strings in `src/data/skills.ts`.
 
 ## `experience`
 

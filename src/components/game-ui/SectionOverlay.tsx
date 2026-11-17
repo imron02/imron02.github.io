@@ -7,7 +7,7 @@ import type { GameSection } from "../../state/game";
 import AboutPanel from "../game-sections/AboutPanel";
 import AboutSectionId from "../game-sections/about/AboutSectionId";
 import ProjectsArchive from "../game-sections/ProjectsArchive";
-import SkillsTree from "../game-sections/SkillsTree";
+import SkillsArchive from "../game-sections/SkillsArchive";
 import ExperienceLog from "../game-sections/ExperienceLog";
 import ContactPanel from "../game-sections/ContactPanel";
 import Button from "../ui/Button";
@@ -20,11 +20,10 @@ import { text } from "../../lib/typography";
 
 type SectionId = Exclude<GameSection, "home">;
 
-/** About and Projects float their own compositions over the world; the rest render inside the modal shell. */
-type ModalSectionId = Exclude<SectionId, "about" | "projects">;
+/** About, Projects and Skills float their own compositions over the world; the rest render inside the modal shell. */
+type ModalSectionId = Exclude<SectionId, "about" | "projects" | "skills">;
 
 const sections: Record<ModalSectionId, { label: string; Body: ComponentType }> = {
-  skills: { label: "SKILL TREE", Body: SkillsTree },
   experience: { label: "ADVENTURE LOG", Body: ExperienceLog },
   contact: { label: "COMMUNICATION PORTAL", Body: ContactPanel },
 };
@@ -125,6 +124,7 @@ export default function SectionOverlay() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape" || $section.get() === "home") return;
+      if (document.querySelector("[data-artifact-sheet]")) return;
       closeSection();
     };
     window.addEventListener("keydown", onKeyDown);
@@ -135,6 +135,7 @@ export default function SectionOverlay() {
     <>
       <AboutOverlay active={section === "about"} onClose={closeSection} />
       <ProjectsArchive active={section === "projects"} onClose={closeSection} />
+      <SkillsArchive active={section === "skills"} onClose={closeSection} />
       {sectionOrder.map((id) => {
         const { label, Body } = sections[id];
 

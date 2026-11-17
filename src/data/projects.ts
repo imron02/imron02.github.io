@@ -1,7 +1,5 @@
 export type ProjectCategory = "Web Application" | "Mobile" | "Creative";
 
-export type ProjectTier = "recommended" | "future";
-
 /** Archive filter buckets — one quest may belong to several. */
 export type ProjectFilter = "web" | "mobile" | "fullstack" | "labs";
 
@@ -55,7 +53,7 @@ export type ProjectTechIcon =
   | "clock";
 
 // Single source for the HUD board tier chip: tone + short label.
-export const tierMeta: Record<ProjectTier, { tone: "gold" | "info"; chip: string }> = {
+export const tierMeta: Record<"recommended" | "future", { tone: "gold" | "info"; chip: string }> = {
   recommended: { tone: "gold", chip: "Rec" },
   future: { tone: "info", chip: "Future" },
 };
@@ -77,7 +75,7 @@ export interface Project {
   difficulty: ProjectDifficulty;
   demoUrl?: string;
   featured: boolean;
-  tier?: ProjectTier;
+  tier?: "recommended" | "future";
   /** Long detail description; falls back to `description`. */
   summary?: string;
   /** Detail subtitle; falls back to `sector` without the separators. */

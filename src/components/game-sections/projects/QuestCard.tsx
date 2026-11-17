@@ -57,7 +57,7 @@ export default function QuestCard({ project, selected, onSelect }: QuestCardProp
             alt=""
             width={1280}
             height={512}
-            loading="lazy"
+            loading="eager"
             decoding="async"
           />
           <span

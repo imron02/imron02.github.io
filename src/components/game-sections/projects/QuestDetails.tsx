@@ -85,7 +85,7 @@ export default function QuestDetails({ project, total }: QuestDetailsProps) {
           alt=""
           width={1280}
           height={512}
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
         <span
